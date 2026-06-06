@@ -1,38 +1,17 @@
-import { NavLink } from "react-router";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "../ui/navigation-menu";
-
-import { ModeToggle } from "../mode-toggle";
+import NavButton from "./NavButton";
 
 export default function NavMenu() {
-  /*
-    Components to add
-    Brand Name
-    Logo
-  */
   return (
-    <NavigationMenu className="w-full">
-      <NavigationMenuList>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Item one</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <NavigationMenuLink>
-              <NavLink to={"/Home"} className={"text-foreground"}>
-                Home
-              </NavLink>
-            </NavigationMenuLink>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <ModeToggle />
-        </NavigationMenuItem>
-      </NavigationMenuList>
-    </NavigationMenu>
+    <div className="flex flex-col justify-between h-full">
+      <div className="flex flex-1 flex-row justify-center items-start mt-4" />
+      <div className="flex flex-1 flex-col justify-center items-center mb-4 gap-4">
+        <NavButton link={"/"} icon={"/icons/Home.svg"} />
+        <NavButton link={"/Projects"} icon={"/icons/Code.svg"} />
+        <NavButton link={"/Skills"} icon={"/icons/List.svg"} />
+        <NavButton link={"/Contact"} icon={"/icons/Mail.svg"} />
+        <NavButton link={"/Music"} icon={"/icons/MusicNote.svg"} />
+      </div>
+      <div className="flex-1" />
+    </div>
   );
 }
