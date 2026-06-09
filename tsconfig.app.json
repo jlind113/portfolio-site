@@ -7,7 +7,6 @@
     "module": "ESNext",
     "types": ["vite/client"],
     "skipLibCheck": true,
-    "ignoreDeprecations": "6.0",
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -26,7 +25,6 @@
     "noUncheckedSideEffectImports": true,
     
     /* Shadcn */
-    "baseUrl": ".",
     "paths": {
       "@/*": [
         "./src/*"
