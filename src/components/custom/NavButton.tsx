@@ -9,6 +9,8 @@ interface props {
 }
 
 export default function NavButton({link, icon}: props) {
+  const iconSrc = `${import.meta.env.BASE_URL}${icon.replace(/^\/+/, "")}`;
+
     return (
         <XyzTransition appear xyz="fade down back flip-up-25% origin-bottom duration-20 ease-out-back">
           <Button
@@ -17,7 +19,7 @@ export default function NavButton({link, icon}: props) {
             className={`size-14 border border-slate-600 rounded-full ${darkMode.grays.gray2} hover:scale-110`}
           >
             <NavLink to={link}>
-              <img src={icon} rel="icon" className="size-10" />
+              <img src={iconSrc} rel="icon" className="size-10" />
             </NavLink>
           </Button>
         </XyzTransition>

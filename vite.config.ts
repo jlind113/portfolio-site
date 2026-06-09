@@ -6,13 +6,13 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  base: "/portfolio-site/",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
   build: {
-    target: "baseline-widely-available",
-    outDir: "Build",
+    outDir: "docs",
   }
 })
