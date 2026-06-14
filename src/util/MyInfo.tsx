@@ -89,84 +89,148 @@ export const Certifications = [
 
 export const MusicLinks = [
     {
+        title: "The Deer The Fox and The Guitar",
+        genre: "Acoustic",
+        link: "audio/The Deer The Fox and The Guitar.wav"
+    },
+    {
         title: "Coil Splits",
         genre: "Metal",
-        link: "https://soundcloud.com/jack-lindgren-343210116/coil-splits?si=ca8108080a5643618f021b96b728e6b5&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+        link: "audio/Coil Splits ver 2.wav"
     },
     {
-        title: "Beating Around a Horse in the Hand",
-        genre: "Electronic",
-        link: "https://soundcloud.com/jack-lindgren-343210116/letsbeatsomehorses?si=e181a98386f54cfe8eb0e390d2961833&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
-    },
-    {
-        title: "Decathexis ft.SethL",
-        genre: "Electronic",
-        link: "https://soundcloud.com/jack-lindgren-343210116/setherpunk?si=7d96a54a3b0c40fea4da98da1dbc55da&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
-    },
-    {
-        title: "Mr. Kitty - After Dark (JackL Remix)",
+        title: "Arturia Synthwave",
         genre: "Synthwave",
-        link: "https://soundcloud.com/jack-lindgren-343210116/mr-kitty-after-dark-remix?si=910d7d6eabfa4f91b99d7ebd61a0d4dc&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+        link: "audio/Arturia Synthwave.wav"
     },
     {
-        title: "Stardust",
+        title: "For Whom The Bell Tolls",
+        genre: "Metal Cover",
+        link: "audio/For Whom The Bell Tolls.wav"
+    },
+    {
+        title: "Generic Metalcore",
+        genre: "Metalcore",
+        link: "audio/Generic Metalcore.wav"
+    },
+    {
+        title: "JackL Rip Off",
+        genre: "Progressive Metal",
+        link: "audio/JackLRipOff.wav"
+    },
+    {
+        title: "Metal Track 1",
+        genre: "Metal",
+        link: "audio/Metal Track 1.wav"
+    },
+    {
+        title: "WubWub",
+        genre: "Dubstep",
+        link: "audio/WubWub.wav"
+    },
+    {
+        title: "Thall",
+        genre: "Thall",
+        link: "audio/thall.wav"
+    },
+    {
+        title: "Syntwav",
         genre: "Synthwave",
-        link: "https://soundcloud.com/jack-lindgren-343210116/stardust?si=9eed5d25b4464c74873504a76d1f9a1e&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+        link: "audio/Syntwav.wav"
     },
     {
-        title: "Returning",
+        title: "SynthyWavey",
         genre: "Synthwave",
-        link: "https://soundcloud.com/jack-lindgren-343210116/calcifer?si=6e0e154a2e2b4710abeb6f1be686dafa&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+        link: "audio/SynthyWavey.wav"
     },
     {
-        title: "Coming Through",
+        title: "Synththeft",
+        genre: "Synthwave",
+        link: "audio/Synththeft.wav"
+    },
+    {
+        title: "Sleep Tokenlike",
+        genre: "Alternative Metal",
+        link: "audio/Sleep tokenlike.wav"
+    },
+    {
+        title: "Serum 2",
         genre: "Electronic",
-        link: "https://soundcloud.com/jack-lindgren-343210116/coming-through?si=1baaf3a304044b66928244c3ea667c02&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+        link: "audio/Serum 2.wav"
     },
     {
-        title: "Rebirth",
-        genre: "Electronic",
-        link: "https://soundcloud.com/jack-lindgren-343210116/rebirth?si=0dc01a80fe4741b6bc9844bc5e769e51&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+        title: "Sci-Fi Track 2",
+        genre: "Cinematic Electronic",
+        link: "audio/Sci-Fi Track 2.wav"
     },
     {
-        title: "I Guess Synthwave",
+        title: "Sci-Fi Track 1",
+        genre: "Cinematic Electronic",
+        link: "audio/Sci-Fi Track 1.wav"
+    },
+    {
+        title: "SBM Run One",
+        genre: "Game Audio",
+        link: "audio/SBM Run One.wav"
+    },
+    {
+        title: "Quad Tracking",
+        genre: "Metal",
+        link: "audio/Quad_Tracking.wav"
+    },
+    {
+        title: "Phonks",
+        genre: "Phonk",
+        link: "audio/phonks.wav"
+    },
+    {
+        title: "Orbit Culture Inspired",
+        genre: "Melodic Death Metal",
+        link: "audio/orbit culture inspired.wav"
+    },
+    {
+        title: "New Project Shit",
+        genre: "Metal",
+        link: "audio/New Project Shit.wav"
+    },
+    {
+        title: "New Presets Synthwave",
         genre: "Synthwave",
-        link: "https://soundcloud.com/jack-lindgren-343210116/i-guess-synthwave?si=1d5535d155c14f788e27d576d057d401&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+        link: "audio/new presets synthwave.wav"
     },
-    // Private tracks
-    // {
-    //     title: "Back To Synthwave",
-    //     genre: "Synthwave",
-    //     link: "https://soundcloud.com/jack-lindgren-343210116/back-to-synthwave/s-knifvpFshgV?si=ee4982944b674eecb362c0e524bcfc34&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
-    // },
-    // {
-    //     title: "Prs B Standard",
-    //     genre: "Metal",
-    //     link: "https://soundcloud.com/jack-lindgren-343210116/prs-b-standard/s-10CIQybvsq8?si=5ad535e225024e2698b19f4015a6315b&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
-    // },
-    // {
-    //     title: "JackLRipOff",
-    //     genre: "Electronic",
-    //     link: "https://soundcloud.com/jack-lindgren-343210116/jacklripoff/s-NUSnQTAzVZY?si=8baead7b4faa491099296720139df1f2&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
-    // },
-    // {
-    //     title: "Metal Track 1",
-    //     genre: "Electronic",
-    //     link: "https://soundcloud.com/jack-lindgren-343210116/metal-track-1/s-4IGYamhgPUi?si=f9f3cc09177a4aedb18a4b2f35bbb9c5&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
-    // },
-    // {
-    //     title: "WubWub",
-    //     genre: "Electronic",
-    //     link: "https://soundcloud.com/jack-lindgren-343210116/wubwub/s-wNgnLvSKEBT?si=ea4905b4a4dd41cabd886fde6ef778ed&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
-    // },
-    // {
-    //     title: "The Deer The Fox and The Guitar",
-    //     genre: "IDK Chill",
-    //     link: "https://soundcloud.com/jack-lindgren-343210116/the-deer-the-fox-and-the/s-J76J5SYAa99?si=402d8d4c96d44afe8165367e8c0961bb&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
-    // },
-    // {
-    //     title: "Thall",
-    //     genre: "Metal",
-    //     link: "https://soundcloud.com/jack-lindgren-343210116/thall/s-hOx9kAXbOjV?si=37ceecf1321346ca8d8b6ba73c557a3d&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
-    // }
-]
+    {
+        title: "IDK Boundaries",
+        genre: "Metalcore",
+        link: "audio/idk boundaries.wav"
+    },
+    {
+        title: "Geetar Song",
+        genre: "Rock",
+        link: "audio/Geetar song.wav"
+    },
+    {
+        title: "808Bench",
+        genre: "Electronic",
+        link: "audio/808Bench.wav"
+    },
+    {
+        title: "Back to Synthwave",
+        genre: "Synthwave",
+        link: "audio/Back to Synthwave.wav"
+    },
+    {
+        title: "Big Cheezy The Remix",
+        genre: "Hip Hop Remix",
+        link: "audio/Big Cheezy The Remix.wav"
+    },
+    {
+        title: "Chill Vibes",
+        genre: "Metal",
+        link: "audio/Chill Vibes.wav"
+    },
+    {
+        title: "FreakWave",
+        genre: "Synthwave",
+        link: "audio/FreakWave.wav"
+    }
+];

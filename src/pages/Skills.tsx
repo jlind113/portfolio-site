@@ -1,5 +1,5 @@
 import { Education, Certifications, MySkills } from "@/util/MyInfo";
-import { darkMode } from "@/style/gradients";
+import { DarkGrads } from "@/style/gradients";
 
 export default function Skills() {
 	return (
@@ -9,17 +9,21 @@ export default function Skills() {
 					MY SKILLS
 				</h1>
 
-        {/* Divider */}
-				<div className="border-t border-slate-700/60 mb-4" />
+				{/* Divider */}
+				<div className="border-t border-slate-500/60 my-4" />
 
 				{/* Skill groups */}
 				<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
 					{MySkills.map((group) => (
 						<div
 							key={group.label}
-							className={`flex flex-col items-center rounded-md border border-slate-700/60 ${darkMode.purples.purple1} p-4 gap-2`}
+							className={`flex flex-col items-center rounded-md border border-slate-700/60 ${DarkGrads.grays.gray2} p-4 gap-2`}
 						>
-							<h2 className={"text-md text-center font-semibold text-slate-400 uppercase tracking-widest"}>
+							<h2
+								className={
+									"text-md text-center font-semibold text-slate-400 uppercase tracking-widest"
+								}
+							>
 								{group.label}
 							</h2>
 							<div className="flex flex-wrap gap-2">
@@ -37,13 +41,19 @@ export default function Skills() {
 				</div>
 
 				{/* Divider */}
-				<div className="border-t border-slate-700/60 mb-4" />
+				<div className="border-t border-slate-500/60 my-4" />
 
 				{/* Education & Certifications */}
 				<div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
 					{/* Education */}
-					<div className={`flex flex-col rounded-md border border-slate-700/60 ${darkMode.purples.purple1} p-4 gap-2`}>
-						<h2 className={"text-md text-center font-semibold text-slate-400 uppercase tracking-widest"}>
+					<div
+						className={`flex flex-col rounded-md border border-slate-700/60 ${DarkGrads.grays.gray2} p-4 gap-2`}
+					>
+						<h2
+							className={
+								"text-md text-center font-semibold text-slate-400 uppercase tracking-widest"
+							}
+						>
 							Education
 						</h2>
 						{Education.map((e) => (
@@ -51,10 +61,10 @@ export default function Skills() {
 								key={e.title}
 								className="flex flex-col gap-0.5"
 							>
-								<p className="text-white font-medium text-sm">
+								<p className="text-slate-200 font-medium text-sm">
 									{e.title}
 								</p>
-								<p className="text-purple-300 text-sm">
+								<p className="text-slate-300 text-sm">
 									{e.institution}
 								</p>
 								{e.detail && (
@@ -67,8 +77,14 @@ export default function Skills() {
 					</div>
 
 					{/* Certifications */}
-					<div className={`flex flex-col rounded-md border border-slate-700/60 ${darkMode.purples.purple1} p-4 gap-2`}>
-						<h2 className={"text-md text-center font-semibold text-slate-400 uppercase tracking-widest"}>
+					<div
+						className={`flex flex-col rounded-md border border-slate-700/60 ${DarkGrads.grays.gray2} p-4 gap-2`}
+					>
+						<h2
+							className={
+								"text-md text-center font-semibold text-slate-400 uppercase tracking-widest"
+							}
+						>
 							Certifications
 						</h2>
 						{Certifications.map((c) => (
@@ -76,10 +92,10 @@ export default function Skills() {
 								key={c.title}
 								className="flex flex-col gap-0.5"
 							>
-								<p className="text-white font-medium text-sm">
+								<p className="text-slate-200 font-medium text-sm">
 									{c.title}
 								</p>
-								<p className="text-purple-300 text-sm">
+								<p className="text-slate-300 text-sm">
 									{c.institution}
 								</p>
 							</div>

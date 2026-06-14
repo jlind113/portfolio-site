@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu"
 import { useTheme } from "@/components/theme-provider"
-import { darkMode } from "@/style/gradients"
+import { DarkGrads } from "@/style/gradients"
 
 export function ModeToggle() {
   const { setTheme } = useTheme()
@@ -22,7 +22,7 @@ export function ModeToggle() {
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className={`${darkMode.grays.gray2}`}>
+      <DropdownMenuContent align="end" className={`${DarkGrads.grays.gray2}`}>
         <DropdownMenuItem onClick={() => setTheme("light")}>
           Light
         </DropdownMenuItem>
