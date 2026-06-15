@@ -1,6 +1,7 @@
 import { DarkGrads } from "@/style/gradients";
 import { AudioVisualizer } from "./audioVisualizer/AudioVisualizer";
 import { useEffect, useRef, useState } from "react";
+import { Progress } from "../ui/progress";
 
 interface Props {
     audioPath: string,
@@ -58,7 +59,7 @@ export default function AudioWidget({audioPath, audioName}: Props) {
                     className={`my-10 max-w-full`}
                 />
             )}
-            
+            <Progress />
             <audio 
                 ref={audioRef}
                 id={audioName}

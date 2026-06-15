@@ -104,11 +104,6 @@ export const MusicLinks = [
         link: "audio/Arturia Synthwave.wav"
     },
     {
-        title: "For Whom The Bell Tolls",
-        genre: "Metal Cover",
-        link: "audio/For Whom The Bell Tolls.wav"
-    },
-    {
         title: "Generic Metalcore",
         genre: "Metalcore",
         link: "audio/Generic Metalcore.wav"
@@ -127,11 +122,6 @@ export const MusicLinks = [
         title: "WubWub",
         genre: "Dubstep",
         link: "audio/WubWub.wav"
-    },
-    {
-        title: "Thall",
-        genre: "Thall",
-        link: "audio/thall.wav"
     },
     {
         title: "Syntwav",
