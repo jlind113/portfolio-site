@@ -1,4 +1,3 @@
-import { DarkGrads } from "@/style/gradients";
 import { AudioVisualizer } from "./audioVisualizer/AudioVisualizer";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Progress } from "../ui/progress";
@@ -137,19 +136,15 @@ export default function AudioWidget({ audioPath, audioName }: Props) {
 	}, [currentTime]);
 
 	return (
-		<div
-			className={
-				"flex flex-col justify-center items-center w-full " +
-				DarkGrads.grays.gray3 +
-				" p-4 rounded-md border-2 border-slate-600"
-			}
-		>
-			<p className="text-left w-full text-2xl text-slate-300">
-				{audioName}
-			</p>
-			<p className="text-center w-full text-3xl text-slate-300">
-				{formattedTime}
-			</p>
+		<div className="flex flex-col justify-center items-center w-full bg-slate-900 p-4 rounded-lg border border-slate-700/50">
+			<div className="flex flex-row justify-between items-baseline w-full mb-1">
+				<p className="text-sm font-semibold text-slate-100">
+					{audioName}
+				</p>
+				<p className="text-xs text-slate-500">
+					{formattedTime}
+				</p>
+			</div>
 
 			{blob && (
 				<AudioVisualizer
@@ -186,25 +181,25 @@ export default function AudioWidget({ audioPath, audioName }: Props) {
 			{loadError && (
 				<p className="w-full mb-4 text-sm text-red-300">{loadError}</p>
 			)}
-            <audio
-                ref={audioRef}
-                id={audioName}
-                src={audioSrc ?? undefined}
-                preload="auto"
-                onCanPlayThrough={() => {
-                    setIsLoaded(true);
-                    setLoadProgress(100);
-                }}
-                onLoadedMetadata={() => {
-                    if (loadProgress < 100) setLoadProgress(100);
-                }}
-                controls={isLoaded}
-                controlsList="nodownload noplaybackrate"
-                onTimeUpdate={(e) => {
-                    setCurrentTime(e.currentTarget.currentTime);
-                }}
-                className={`rounded-full w-full border-2 border-slate-500`}
-            />
+			<audio
+				ref={audioRef}
+				id={audioName}
+				src={audioSrc ?? undefined}
+				preload="auto"
+				onCanPlayThrough={() => {
+					setIsLoaded(true);
+					setLoadProgress(100);
+				}}
+				onLoadedMetadata={() => {
+					if (loadProgress < 100) setLoadProgress(100);
+				}}
+				controls={isLoaded}
+				controlsList="nodownload noplaybackrate"
+				onTimeUpdate={(e) => {
+					setCurrentTime(e.currentTarget.currentTime);
+				}}
+				className={"w-full"}
+			/>
 		</div>
 	);
 }

@@ -1,36 +1,33 @@
 import { Education, Certifications, MySkills } from "@/util/MyInfo";
-import { DarkGrads } from "@/style/gradients";
 
 export default function Skills() {
 	return (
 		<div className="w-full h-full flex flex-col items-center overflow-y-auto">
-			<section className="w-full max-w-3xl pt-14 pb-16">
-				<h1 className="text-5xl font-bold text-white text-center mb-4">
-					MY SKILLS
-				</h1>
+			<section className="w-full max-w-3xl pt-14 pb-16 px-4">
 
-				{/* Divider */}
-				<div className="border-t border-slate-500/60 my-4" />
+				{/* Page heading */}
+				<div className="flex flex-col items-center mb-10">
+					<h1 className="text-4xl font-bold tracking-tight text-slate-100">
+						Skills &amp; Qualifications
+					</h1>
+					<div className="mt-3 h-px w-24 bg-slate-500" />
+				</div>
 
 				{/* Skill groups */}
-				<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+				<div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-10">
 					{MySkills.map((group) => (
 						<div
 							key={group.label}
-							className={`flex flex-col items-center rounded-md border border-slate-700/60 ${DarkGrads.grays.gray2} p-4 gap-2`}
+							className="flex flex-col gap-3 rounded-lg border border-slate-700/50 bg-slate-900 p-5"
 						>
-							<h2
-								className={
-									"text-md text-center font-semibold text-slate-400 uppercase tracking-widest"
-								}
-							>
+							<h2 className="text-xs font-semibold uppercase tracking-widest text-slate-500">
 								{group.label}
 							</h2>
 							<div className="flex flex-wrap gap-2">
 								{group.skills.map((s) => (
 									<span
 										key={s}
-										className="text-md px-4 py-1 text-slate-200"
+										className="rounded border border-slate-700 bg-slate-800 px-3 py-1 text-sm text-slate-200"
 									>
 										{s}
 									</span>
@@ -41,34 +38,26 @@ export default function Skills() {
 				</div>
 
 				{/* Divider */}
-				<div className="border-t border-slate-500/60 my-4" />
+				<div className="border-t border-slate-800 mb-8" />
 
 				{/* Education & Certifications */}
-				<div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+				<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
 					{/* Education */}
-					<div
-						className={`flex flex-col rounded-md border border-slate-700/60 ${DarkGrads.grays.gray2} p-4 gap-2`}
-					>
-						<h2
-							className={
-								"text-md text-center font-semibold text-slate-400 uppercase tracking-widest"
-							}
-						>
+					<div className="flex flex-col gap-4 rounded-lg border border-slate-700/50 bg-slate-900 p-5">
+						<h2 className="text-xs font-semibold uppercase tracking-widest text-slate-500">
 							Education
 						</h2>
 						{Education.map((e) => (
-							<div
-								key={e.title}
-								className="flex flex-col gap-0.5"
-							>
-								<p className="text-slate-200 font-medium text-sm">
+							<div key={e.title} className="flex flex-col gap-0.5">
+								<p className="text-sm font-semibold text-slate-100">
 									{e.title}
 								</p>
-								<p className="text-slate-300 text-sm">
+								<p className="text-sm text-slate-400">
 									{e.institution}
 								</p>
 								{e.detail && (
-									<p className="text-slate-400 text-xs">
+									<p className="text-xs text-slate-500">
 										{e.detail}
 									</p>
 								)}
@@ -77,25 +66,16 @@ export default function Skills() {
 					</div>
 
 					{/* Certifications */}
-					<div
-						className={`flex flex-col rounded-md border border-slate-700/60 ${DarkGrads.grays.gray2} p-4 gap-2`}
-					>
-						<h2
-							className={
-								"text-md text-center font-semibold text-slate-400 uppercase tracking-widest"
-							}
-						>
+					<div className="flex flex-col gap-4 rounded-lg border border-slate-700/50 bg-slate-900 p-5">
+						<h2 className="text-xs font-semibold uppercase tracking-widest text-slate-500">
 							Certifications
 						</h2>
 						{Certifications.map((c) => (
-							<div
-								key={c.title}
-								className="flex flex-col gap-0.5"
-							>
-								<p className="text-slate-200 font-medium text-sm">
+							<div key={c.title} className="flex flex-col gap-0.5">
+								<p className="text-sm font-semibold text-slate-100">
 									{c.title}
 								</p>
-								<p className="text-slate-300 text-sm">
+								<p className="text-sm text-slate-400">
 									{c.institution}
 								</p>
 							</div>

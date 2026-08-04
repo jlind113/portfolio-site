@@ -1,32 +1,37 @@
+import { useState } from "react";
 import { MusicLinks } from "@/util/MyInfo";
-import { XyzTransition } from "@animxyz/react";
+import SongSelector, { type Track } from "@/components/custom/SongSelector";
 import AudioWidget from "@/components/custom/AudioWidget";
 
 export default function Music() {
+	const [selectedTrack, setSelectedTrack] = useState<Track | null>(null);
+
 	return (
-		<div className="flex flex-col items-center w-full h-full">
-			<div className="flex flex-col items-center w-full h-full">
-				<h1 className="text-5xl pb-10 text-center">My Music</h1>
-				<ul className="w-2/3">
-					{MusicLinks.map((track) => (
-						<XyzTransition
-							appear
-							xyz="fade down back flip-up-25% origin-bottom duration-20 ease-out-back"
-							key={track.title}
-						>
-							<li
-								key={track.title}
-								className={`my-4`}
-							>
-								<AudioWidget
-									audioPath={track.link}
-									audioName={track.title}
-								/>
-							</li>
-						</XyzTransition>
-					))}
-				</ul>
-			</div>
+		<div className="w-full h-full flex flex-col items-center overflow-y-auto">
+			<section className="w-full max-w-3xl pt-14 pb-16 px-4">
+				<div className="flex flex-col items-center mb-10">
+					<h1 className="text-4xl font-bold tracking-tight text-slate-100">
+						My Music
+					</h1>
+					<div className="mt-3 h-px w-24 bg-slate-500" />
+				</div>
+
+				<SongSelector
+					tracks={MusicLinks}
+					selectedTrack={selectedTrack}
+					onSelect={setSelectedTrack}
+				/>
+
+				{selectedTrack && (
+					<div className="mt-4">
+						<AudioWidget
+							key={selectedTrack.link}
+							audioPath={selectedTrack.link}
+							audioName={selectedTrack.title}
+						/>
+					</div>
+				)}
+			</section>
 		</div>
 	);
 }

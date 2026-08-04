@@ -1,8 +1,9 @@
 import { Route, Routes } from "react-router";
+
+// Components
 import NavMenu from "./components/custom/NavMenu";
 
 // Pages
-import { DarkGrads } from "./style/gradients";
 import Home from "./pages/Home";
 import Projects from "./pages/Projects";
 import Skills from "./pages/Skills";
@@ -11,9 +12,7 @@ import Music from "./pages/Music";
 
 export default function App() {
 	return (
-		<div
-			className={`flex flex-row justify-between items-start ${DarkGrads.grays.gray1} min-h-screen`}
-		>
+		<div className="flex flex-row justify-between items-start bg-slate-950 min-h-screen">
 			<div className="w-full h-full p-10">
 				<Routes>
 					<Route path="/" element={<Home />} />

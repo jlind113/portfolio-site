@@ -1,6 +1,5 @@
 import { NavLink } from "react-router";
 import { Button } from "../ui/button";
-import { DarkGrads } from "@/style/gradients";
 import { XyzTransition } from "@animxyz/react";
 import { useState } from "react";
 
@@ -25,7 +24,7 @@ export default function NavButton({text, link, icon}: props) {
               variant={"secondary"}
               onMouseEnter={() => HandleHover(true)}
               onMouseLeave={() => HandleHover(false)}
-              className={`size-14 border-2 border-slate-600 rounded-full ${DarkGrads.grays.gray3}`}
+              className={`size-14 border border-slate-700 rounded-full bg-slate-900 hover:border-slate-500 hover:bg-slate-900 transition-[width,border-color] duration-200 ease-in-out`}
               style={{
                 width: isHovering? "100px" : "56px"
               }}

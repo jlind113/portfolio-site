@@ -98,28 +98,30 @@ const categoryColors: Record<Project["category"], string> = {
 export default function Projects() {
 	return (
 		<div className="w-full h-full flex flex-col items-center overflow-y-auto">
-			<section className="w-full max-w-3xl pt-14 pb-16">
-				<h1 className="text-5xl font-bold text-white text-center mb-4">
-					Projects
-				</h1>
-				<p className="text-slate-300 text-center text-lg mb-10">
-					A selection of work spanning freelance, academic, and
-					personal projects.
-				</p>
+			<section className="w-full max-w-3xl pt-14 pb-16 px-4">
+				<div className="flex flex-col items-center mb-10">
+					<h1 className="text-4xl font-bold tracking-tight text-slate-100">
+						Projects
+					</h1>
+					<div className="mt-3 h-px w-24 bg-slate-500" />
+					<p className="text-slate-400 text-sm text-center mt-4">
+						A selection of work spanning freelance, academic, and personal projects.
+					</p>
+				</div>
 
-				<div className="flex flex-col gap-6">
+				<div className="flex flex-col gap-4">
 					{projects.map((p) => (
 						<div
 							key={p.title}
-							className="rounded-md border-2 border-slate-700/60 bg-slate-800/40 p-6 flex flex-col gap-4 hover:border-slate-500/50 transition-colors"
+							className="rounded-lg border border-slate-700/50 bg-slate-900 p-6 flex flex-col gap-4 hover:border-slate-500/50 transition-colors"
 						>
 							{/* Header */}
 							<div className="flex flex-row items-start justify-between gap-4 flex-wrap">
-								<h2 className="text-xl font-semibold text-white">
-									{p.title}
-								</h2>
-								<span
-									className={`text-xs font-semibold px-3 py-1 rounded-full border ${categoryColors[p.category]}`}
+							<h2 className="text-xl font-semibold text-slate-100">
+								{p.title}
+							</h2>
+							<span
+								className={`text-xs font-semibold px-3 py-1 rounded border ${categoryColors[p.category]}`}
 								>
 									{p.category}
 								</span>
@@ -150,7 +152,7 @@ export default function Projects() {
 								{p.tech.map((t) => (
 									<span
 										key={t}
-										className="text-xs px-2.5 py-1 rounded-full bg-slate-700/60 border border-slate-600 text-slate-300"
+										className="text-sm px-3 py-1 rounded bg-slate-800 border border-slate-700 text-slate-200"
 									>
 										{t}
 									</span>
