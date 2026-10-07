@@ -2,7 +2,7 @@ interface Project {
 	title: string;
 	description: string;
 	tech: string[];
-	category: "Freelance" | "Academic" | "Personal";
+	category: "Freelance" | "Academic";
 	highlights: string[];
 }
 
@@ -51,24 +51,6 @@ const projects: Project[] = [
 		],
 	},
 	{
-		title: "Super Beat Maker",
-		category: "Personal",
-		description:
-			"A roguelike-style beat production challenge app. Players roll randomized Mutations, Curses, and Track Types that constrain composition decisions across a run of rooms, with session persistence and a full reference section.",
-		tech: [
-			"React 19",
-			"TypeScript",
-			"Vite",
-			"shadcn/ui",
-			"Tailwind CSS v4",
-		],
-		highlights: [
-			"Custom React Context managing full run lifecycle and room gameplay state",
-			"Local storage sync for durable session continuation and end-run cleanup",
-			"d100-style randomization engine mapped to large probability table datasets",
-		],
-	},
-	{
 		title: "Trip Tracker",
 		category: "Academic",
 		description:
@@ -92,7 +74,6 @@ const projects: Project[] = [
 const categoryColors: Record<Project["category"], string> = {
 	Freelance: "bg-emerald-900/50 text-emerald-300 border-emerald-700",
 	Academic: "bg-blue-900/50 text-blue-300 border-blue-700",
-	Personal: "bg-purple-900/50 text-purple-300 border-purple-700",
 };
 
 export default function Projects() {
