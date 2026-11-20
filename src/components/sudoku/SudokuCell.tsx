@@ -14,12 +14,12 @@ interface SudokuCellProps {
 	onPointerDown: (
 		row: number,
 		col: number,
-		e: PointerEvent<HTMLButtonElement>
+		e: PointerEvent<HTMLButtonElement>,
 	) => void;
 	onPointerEnter: (
 		row: number,
 		col: number,
-		e: PointerEvent<HTMLButtonElement>
+		e: PointerEvent<HTMLButtonElement>,
 	) => void;
 }
 
@@ -59,7 +59,8 @@ export default function SudokuCell({
 	} else if (isSelected) {
 		bgClass = "bg-purple-600/45 ring-2 ring-inset ring-purple-400/90 z-10";
 	} else if (hasError) {
-		bgClass = "bg-rose-600/50 ring-2 ring-inset ring-rose-400 text-rose-100";
+		bgClass =
+			"bg-rose-600/50 ring-2 ring-inset ring-rose-400 text-rose-100";
 	} else if (isSameDigitHighlighted) {
 		bgClass = "bg-cyan-600/45 ring-2 ring-inset ring-cyan-400/80";
 	} else if (isPeerHighlighted) {
@@ -104,7 +105,10 @@ export default function SudokuCell({
 						cell.cornerMarks.map((digit, index) => {
 							const slotClass =
 								CORNER_SLOT_CLASSES[
-									Math.min(index, CORNER_SLOT_CLASSES.length - 1)
+									Math.min(
+										index,
+										CORNER_SLOT_CLASSES.length - 1,
+									)
 								];
 							const isCandidateMatch =
 								highlightedCandidateDigit !== null &&

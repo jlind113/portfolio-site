@@ -103,30 +103,28 @@ function extractDigitFromKeyEvent(e: KeyboardEvent): number | null {
 
 export default function Sudoku() {
 	const [initialState] = useState<InitialGameState>(() =>
-		getInitialGameState()
+		getInitialGameState(),
 	);
-	const [puzzle, setPuzzle] = useState<PuzzleDefinition>(
-		initialState.puzzle
-	);
+	const [puzzle, setPuzzle] = useState<PuzzleDefinition>(initialState.puzzle);
 	const [board, setBoard] = useState<BoardGrid>(initialState.board);
 	const [selectedCells, setSelectedCells] = useState<CellCoord[]>([]);
 	const [focusedCell, setFocusedCell] = useState<CellCoord | null>(null);
 	const [isMultiSelectMode, setIsMultiSelectMode] = useState<boolean>(false);
 	const isDraggingRef = useRef<boolean>(false);
 	const [highlightedDigit, setHighlightedDigit] = useState<number | null>(
-		null
+		null,
 	);
 	const [inputMode, setInputMode] = useState<InputMode>(
-		initialState.inputMode
+		initialState.inputMode,
 	);
 	const [undoStack, setUndoStack] = useState<BoardSnapshot[]>(
-		initialState.undoStack
+		initialState.undoStack,
 	);
 	const [redoStack, setRedoStack] = useState<BoardSnapshot[]>(
-		initialState.redoStack
+		initialState.redoStack,
 	);
 	const [elapsedSeconds, setElapsedSeconds] = useState<number>(
-		initialState.elapsedSeconds
+		initialState.elapsedSeconds,
 	);
 	const [isPaused, setIsPaused] = useState<boolean>(false);
 	const [isSolved, setIsSolved] = useState<boolean>(initialState.isSolved);
@@ -221,7 +219,7 @@ export default function Sudoku() {
 				setIsVictoryModalOpen(true);
 			}
 		},
-		[board, elapsedSeconds, isSolved, puzzle]
+		[board, elapsedSeconds, isSolved, puzzle],
 	);
 
 	const startPuzzle = useCallback((targetPuzzle: PuzzleDefinition) => {
@@ -245,7 +243,7 @@ export default function Sudoku() {
 			const nextPuzzle = getRandomPuzzle(difficulty, puzzle.id);
 			startPuzzle(nextPuzzle);
 		},
-		[isSolved, puzzle.difficulty, puzzle.id, startPuzzle]
+		[isSolved, puzzle.difficulty, puzzle.id, startPuzzle],
 	);
 
 	const handleNewPuzzle = useCallback(() => {
@@ -268,7 +266,7 @@ export default function Sudoku() {
 				setInputMode("center");
 			}
 		},
-		[board, inputMode]
+		[board, inputMode],
 	);
 
 	const handleChangeInputMode = useCallback(
@@ -292,7 +290,7 @@ export default function Sudoku() {
 
 				if (nextMode === "corner" && target.centerMarks.length > 0) {
 					target.cornerMarks = Array.from(
-						new Set([...target.cornerMarks, ...target.centerMarks])
+						new Set([...target.cornerMarks, ...target.centerMarks]),
 					).sort((a, b) => a - b);
 					target.centerMarks = [];
 					converted = true;
@@ -301,7 +299,7 @@ export default function Sudoku() {
 					target.cornerMarks.length > 0
 				) {
 					target.centerMarks = Array.from(
-						new Set([...target.centerMarks, ...target.cornerMarks])
+						new Set([...target.centerMarks, ...target.cornerMarks]),
 					).sort((a, b) => a - b);
 					target.cornerMarks = [];
 					converted = true;
@@ -312,7 +310,7 @@ export default function Sudoku() {
 				commitBoardChange(nextBoard);
 			}
 		},
-		[board, commitBoardChange, isPaused, isSolved, selectedCells]
+		[board, commitBoardChange, isPaused, isSolved, selectedCells],
 	);
 
 	const handleCellPointerDown = useCallback(
@@ -327,11 +325,11 @@ export default function Sudoku() {
 
 			if (isAdditive) {
 				const exists = selectedCells.some(
-					(c) => c.row === row && c.col === col
+					(c) => c.row === row && c.col === col,
 				);
 				if (exists && selectedCells.length > 1) {
 					const next = selectedCells.filter(
-						(c) => !(c.row === row && c.col === col)
+						(c) => !(c.row === row && c.col === col),
 					);
 					setSelectedCells(next);
 					const nextFocused = next[next.length - 1];
@@ -366,7 +364,7 @@ export default function Sudoku() {
 			isPaused,
 			selectedCells,
 			syncPencilModeForSingleCell,
-		]
+		],
 	);
 
 	const handleCellPointerEnter = useCallback(
@@ -376,10 +374,10 @@ export default function Sudoku() {
 			setSelectedCells((prev) =>
 				prev.some((c) => c.row === row && c.col === col)
 					? prev
-					: [...prev, { row, col }]
+					: [...prev, { row, col }],
 			);
 		},
-		[isPaused]
+		[isPaused],
 	);
 
 	const handleClearSelection = useCallback(() => {
@@ -397,7 +395,7 @@ export default function Sudoku() {
 			}
 
 			const editableTargets = selectedCells.filter(
-				({ row, col }) => !board[row]?.[col]?.given
+				({ row, col }) => !board[row]?.[col]?.given,
 			);
 			if (editableTargets.length === 0) {
 				setHighlightedDigit((prev) => (prev === digit ? null : digit));
@@ -428,7 +426,7 @@ export default function Sudoku() {
 
 			// Corner and center pencil marks apply only to cells without a main value
 			const emptyTargets = editableTargets.filter(
-				({ row, col }) => board[row][col].value === null
+				({ row, col }) => board[row][col].value === null,
 			);
 			if (emptyTargets.length === 0) return;
 
@@ -436,12 +434,12 @@ export default function Sudoku() {
 				const allHaveDigit = emptyTargets.every(
 					({ row, col }) =>
 						board[row][col].cornerMarks.includes(digit) ||
-						board[row][col].centerMarks.includes(digit)
+						board[row][col].centerMarks.includes(digit),
 				);
 				for (const { row, col } of emptyTargets) {
 					const target = nextBoard[row][col];
 					const mergedCorner = Array.from(
-						new Set([...target.cornerMarks, ...target.centerMarks])
+						new Set([...target.cornerMarks, ...target.centerMarks]),
 					);
 					target.centerMarks = [];
 					if (allHaveDigit) {
@@ -450,7 +448,7 @@ export default function Sudoku() {
 							.sort((a, b) => a - b);
 					} else {
 						target.cornerMarks = Array.from(
-							new Set([...mergedCorner, digit])
+							new Set([...mergedCorner, digit]),
 						).sort((a, b) => a - b);
 					}
 				}
@@ -462,12 +460,12 @@ export default function Sudoku() {
 				const allHaveDigit = emptyTargets.every(
 					({ row, col }) =>
 						board[row][col].centerMarks.includes(digit) ||
-						board[row][col].cornerMarks.includes(digit)
+						board[row][col].cornerMarks.includes(digit),
 				);
 				for (const { row, col } of emptyTargets) {
 					const target = nextBoard[row][col];
 					const mergedCenter = Array.from(
-						new Set([...target.centerMarks, ...target.cornerMarks])
+						new Set([...target.centerMarks, ...target.cornerMarks]),
 					);
 					target.cornerMarks = [];
 					if (allHaveDigit) {
@@ -476,7 +474,7 @@ export default function Sudoku() {
 							.sort((a, b) => a - b);
 					} else {
 						target.centerMarks = Array.from(
-							new Set([...mergedCenter, digit])
+							new Set([...mergedCenter, digit]),
 						).sort((a, b) => a - b);
 					}
 				}
@@ -490,7 +488,7 @@ export default function Sudoku() {
 			isPaused,
 			isSolved,
 			selectedCells,
-		]
+		],
 	);
 
 	const handleErase = useCallback(() => {
@@ -546,7 +544,7 @@ export default function Sudoku() {
 		if (focusedCell) {
 			const sel = board[focusedCell.row][focusedCell.col];
 			const expected = Number(
-				puzzle.solution[focusedCell.row * 9 + focusedCell.col]
+				puzzle.solution[focusedCell.row * 9 + focusedCell.col],
 			);
 			if (!sel.given && sel.value !== expected) {
 				targetCoords = focusedCell;
@@ -607,7 +605,7 @@ export default function Sudoku() {
 				[key]: !prev[key],
 			}));
 		},
-		[]
+		[],
 	);
 
 	// Global keyboard controls
@@ -693,14 +691,14 @@ export default function Sudoku() {
 				if (lowerKey === "x" || lowerKey === "n") {
 					e.preventDefault();
 					handleChangeInputMode(
-						inputMode === "corner" ? "normal" : "corner"
+						inputMode === "corner" ? "normal" : "corner",
 					);
 					return;
 				}
 				if (lowerKey === "c" || lowerKey === "m") {
 					e.preventDefault();
 					handleChangeInputMode(
-						inputMode === "center" ? "normal" : "center"
+						inputMode === "center" ? "normal" : "center",
 					);
 					return;
 				}
@@ -711,7 +709,7 @@ export default function Sudoku() {
 							? "corner"
 							: inputMode === "corner"
 								? "center"
-								: "normal"
+								: "normal",
 					);
 					return;
 				}
@@ -752,7 +750,7 @@ export default function Sudoku() {
 				if (e.shiftKey || isMultiSelectMode) {
 					const nextList = selectedCells.some(
 						(c) =>
-							c.row === nextCoord.row && c.col === nextCoord.col
+							c.row === nextCoord.row && c.col === nextCoord.col,
 					)
 						? selectedCells
 						: [...selectedCells, nextCoord];
@@ -769,11 +767,7 @@ export default function Sudoku() {
 			}
 
 			// Erase shortcuts
-			if (
-				e.key === "Backspace" ||
-				e.key === "Delete" ||
-				e.key === "0"
-			) {
+			if (e.key === "Backspace" || e.key === "Delete" || e.key === "0") {
 				e.preventDefault();
 				handleErase();
 				return;

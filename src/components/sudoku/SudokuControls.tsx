@@ -87,8 +87,7 @@ export default function SudokuControls({
 			? {
 					label: "Corner Pencil (Multi)",
 					hint: "Toggles corner marks on selected cells",
-					badgeClass:
-						"text-sky-200 border-sky-500/70 bg-sky-900/50",
+					badgeClass: "text-sky-200 border-sky-500/70 bg-sky-900/50",
 				}
 			: MODE_LABELS[inputMode];
 	const effectivePadMode: InputMode =

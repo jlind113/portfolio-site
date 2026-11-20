@@ -15,12 +15,12 @@ interface SudokuGridProps {
 	onCellPointerDown: (
 		row: number,
 		col: number,
-		e: PointerEvent<HTMLButtonElement>
+		e: PointerEvent<HTMLButtonElement>,
 	) => void;
 	onCellPointerEnter: (
 		row: number,
 		col: number,
-		e: PointerEvent<HTMLButtonElement>
+		e: PointerEvent<HTMLButtonElement>,
 	) => void;
 	onResume: () => void;
 }
@@ -38,12 +38,12 @@ export default function SudokuGrid({
 	onResume,
 }: SudokuGridProps) {
 	const selectedSet = new Set(
-		selectedCells.map((cell) => `${cell.row}-${cell.col}`)
+		selectedCells.map((cell) => `${cell.row}-${cell.col}`),
 	);
 
 	const focusedValue =
 		focusedCell !== null
-			? board[focusedCell.row]?.[focusedCell.col]?.value ?? null
+			? (board[focusedCell.row]?.[focusedCell.col]?.value ?? null)
 			: null;
 	const activeDigit = focusedValue ?? highlightedDigit;
 
@@ -55,7 +55,8 @@ export default function SudokuGrid({
 		>
 			{board.map((row, r) =>
 				row.map((cell, c) => {
-					const isSelected = !isPaused && selectedSet.has(`${r}-${c}`);
+					const isSelected =
+						!isPaused && selectedSet.has(`${r}-${c}`);
 					const isFocused =
 						!isPaused &&
 						focusedCell?.row === r &&
@@ -82,7 +83,10 @@ export default function SudokuGrid({
 
 					const conflict = highlightSettings.errorChecking
 						? getCellConflict(board, puzzle, r, c)
-						: { hasRuleConflict: false, hasSolutionMismatch: false };
+						: {
+								hasRuleConflict: false,
+								hasSolutionMismatch: false,
+							};
 
 					const hasError =
 						!isPaused &&
@@ -112,7 +116,9 @@ export default function SudokuGrid({
 							isFocused={isFocused}
 							isPeerHighlighted={isPeerHighlighted}
 							isSameDigitHighlighted={isSameDigitHighlighted}
-							highlightedCandidateDigit={highlightedCandidateDigit}
+							highlightedCandidateDigit={
+								highlightedCandidateDigit
+							}
 							hasError={hasError}
 							isObscured={isPaused}
 							borderClasses={`${rightBorder} ${bottomBorder}`}
@@ -120,7 +126,7 @@ export default function SudokuGrid({
 							onPointerEnter={onCellPointerEnter}
 						/>
 					);
-				})
+				}),
 			)}
 
 			{isPaused && (

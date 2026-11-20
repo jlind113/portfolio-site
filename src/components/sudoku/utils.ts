@@ -32,7 +32,7 @@ export function cloneBoard(board: BoardGrid): BoardGrid {
 			...cell,
 			cornerMarks: [...cell.cornerMarks],
 			centerMarks: [...cell.centerMarks],
-		}))
+		})),
 	);
 }
 
@@ -43,14 +43,14 @@ export function createSnapshot(board: BoardGrid): BoardSnapshot {
 				value: cell.value,
 				cornerMarks: [...cell.cornerMarks],
 				centerMarks: [...cell.centerMarks],
-			}))
+			})),
 		),
 	};
 }
 
 export function applySnapshot(
 	board: BoardGrid,
-	snapshot: BoardSnapshot
+	snapshot: BoardSnapshot,
 ): BoardGrid {
 	return board.map((row, r) =>
 		row.map((cell, c) => {
@@ -68,7 +68,7 @@ export function applySnapshot(
 				cornerMarks: [...snap.cornerMarks],
 				centerMarks: [...snap.centerMarks],
 			};
-		})
+		}),
 	);
 }
 
@@ -80,13 +80,11 @@ export function arePeers(
 	r1: number,
 	c1: number,
 	r2: number,
-	c2: number
+	c2: number,
 ): boolean {
 	if (r1 === r2 && c1 === c2) return false;
 	return (
-		r1 === r2 ||
-		c1 === c2 ||
-		getCageIndex(r1, c1) === getCageIndex(r2, c2)
+		r1 === r2 || c1 === c2 || getCageIndex(r1, c1) === getCageIndex(r2, c2)
 	);
 }
 
@@ -94,7 +92,7 @@ export function getCellConflict(
 	board: BoardGrid,
 	puzzle: PuzzleDefinition,
 	row: number,
-	col: number
+	col: number,
 ): { hasRuleConflict: boolean; hasSolutionMismatch: boolean } {
 	const cell = board[row]?.[col];
 	if (!cell || cell.value === null) {
@@ -121,7 +119,7 @@ export function getCellConflict(
 export function computeValidCandidates(
 	board: BoardGrid,
 	row: number,
-	col: number
+	col: number,
 ): number[] {
 	const cell = board[row]?.[col];
 	if (!cell || cell.value !== null) return [];
@@ -145,7 +143,7 @@ export function computeValidCandidates(
 
 export function populateAutoNotes(
 	board: BoardGrid,
-	target: "corner" | "center" = "center"
+	target: "corner" | "center" = "center",
 ): BoardGrid {
 	const next = cloneBoard(board);
 	for (let r = 0; r < 9; r++) {
@@ -169,7 +167,7 @@ export function removePeerPencilMarks(
 	board: BoardGrid,
 	row: number,
 	col: number,
-	digit: number
+	digit: number,
 ): void {
 	for (let r = 0; r < 9; r++) {
 		for (let c = 0; c < 9; c++) {
@@ -187,7 +185,7 @@ export function removePeerPencilMarks(
 
 export function isBoardSolved(
 	board: BoardGrid,
-	puzzle: PuzzleDefinition
+	puzzle: PuzzleDefinition,
 ): boolean {
 	for (let r = 0; r < 9; r++) {
 		for (let c = 0; c < 9; c++) {
@@ -214,9 +212,7 @@ export function formatTime(totalSeconds: number): string {
 	return `${mm}:${ss}`;
 }
 
-export function countDigitPlacements(
-	board: BoardGrid
-): Record<number, number> {
+export function countDigitPlacements(board: BoardGrid): Record<number, number> {
 	const counts: Record<number, number> = {
 		1: 0,
 		2: 0,

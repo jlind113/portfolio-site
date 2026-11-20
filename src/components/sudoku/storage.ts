@@ -56,8 +56,8 @@ function isValidSnapshot(value: unknown): value is BoardSnapshot {
 							cell.value >= 1 &&
 							cell.value <= 9)) &&
 					Array.isArray(cell.cornerMarks) &&
-					Array.isArray(cell.centerMarks)
-			)
+					Array.isArray(cell.centerMarks),
+			),
 	);
 }
 
