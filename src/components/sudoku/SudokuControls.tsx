@@ -13,6 +13,7 @@ import {
 	Undo2,
 } from "lucide-react";
 import type { HighlightSettings, InputMode } from "./types";
+import { controls } from './styles';
 
 interface SudokuControlsProps {
 	inputMode: InputMode;
@@ -87,7 +88,7 @@ export default function SudokuControls({
 			? {
 					label: "Corner Pencil (Multi)",
 					hint: "Toggles corner marks on selected cells",
-					badgeClass: "text-sky-200 border-sky-500/70 bg-sky-900/50",
+					badgeClass: "text-[#A6D6FF] border-[#A6D6FF] bg-sky-900/50",
 				}
 			: MODE_LABELS[inputMode];
 	const effectivePadMode: InputMode =
@@ -96,9 +97,9 @@ export default function SudokuControls({
 	return (
 		<div className="flex flex-col gap-4 w-full max-w-sm">
 			{/* Pencil / Input Mode Switcher */}
-			<div className="rounded-lg border border-slate-700/60 bg-slate-900 p-4 flex flex-col gap-3">
+			<div className={`${controls.cards} p-4 flex flex-col gap-3`}>
 				<div className="flex items-center justify-between">
-					<span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+					<span className="text-xs font-semibold uppercase tracking-wider text-[#A6D6FF]">
 						Input Mode
 					</span>
 					<span
@@ -116,13 +117,13 @@ export default function SudokuControls({
 						aria-pressed={inputMode === "normal"}
 						className={`flex flex-col items-center justify-center gap-1 py-2.5 px-2 rounded-lg border text-xs font-semibold transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${
 							inputMode === "normal"
-								? "bg-purple-900/60 border-purple-400 text-purple-100"
-								: "bg-slate-800/70 border-slate-700 text-slate-300 hover:border-slate-500"
+								? "bg-purple-900/60 border-purple-400 text-[#A6D6FF]"
+								: "bg-slate-800/70 border-slate-700 text-[#A6D6FF] hover:border-slate-500"
 						}`}
 					>
 						<PenLine className="size-4" />
 						<span>Normal</span>
-						<span className="text-[10px] font-normal text-slate-400">
+						<span className="text-[10px] font-normal text-[#A6D6FF]">
 							Key Z
 						</span>
 					</button>
@@ -134,13 +135,13 @@ export default function SudokuControls({
 						aria-pressed={inputMode === "corner"}
 						className={`flex flex-col items-center justify-center gap-1 py-2.5 px-2 rounded-lg border text-xs font-semibold transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${
 							inputMode === "corner"
-								? "bg-sky-900/60 border-sky-400 text-sky-100"
-								: "bg-slate-800/70 border-slate-700 text-slate-300 hover:border-slate-500"
+								? "bg-sky-900/60 border-sky-400 text-[#A6D6FF]"
+								: "bg-slate-800/70 border-slate-700 text-[#A6D6FF] hover:border-slate-500"
 						}`}
 					>
 						<CornerUpLeft className="size-4" />
 						<span>Corner</span>
-						<span className="text-[10px] font-normal text-slate-400">
+						<span className="text-[10px] font-normal text-[#A6D6FF]">
 							Key N / X
 						</span>
 					</button>
@@ -152,13 +153,13 @@ export default function SudokuControls({
 						aria-pressed={inputMode === "center"}
 						className={`flex flex-col items-center justify-center gap-1 py-2.5 px-2 rounded-lg border text-xs font-semibold transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${
 							inputMode === "center"
-								? "bg-emerald-900/60 border-emerald-400 text-emerald-100"
-								: "bg-slate-800/70 border-slate-700 text-slate-300 hover:border-slate-500"
+								? "bg-emerald-900/60 border-emerald-400 text-[#A6D6FF]"
+								: "bg-slate-800/70 border-slate-700 text-[#A6D6FF] hover:border-slate-500"
 						}`}
 					>
 						<Pencil className="size-4" />
 						<span>Center</span>
-						<span className="text-[10px] font-normal text-slate-400">
+						<span className="text-[10px] font-normal text-[#A6D6FF]">
 							Key C
 						</span>
 					</button>
@@ -173,8 +174,8 @@ export default function SudokuControls({
 						aria-pressed={isMultiSelectMode}
 						className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border text-xs font-semibold transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${
 							isMultiSelectMode
-								? "bg-purple-700/50 border-purple-300 text-purple-100"
-								: "bg-slate-800/70 border-slate-700 text-slate-300 hover:border-slate-500"
+								? "bg-purple-700/50 border-purple-300 text-[#A6D6FF]"
+								: "bg-slate-800/70 border-slate-700 text-[#A6D6FF] hover:border-slate-500"
 						}`}
 					>
 						<CheckSquare className="size-3.5" />
@@ -182,8 +183,8 @@ export default function SudokuControls({
 					</button>
 
 					<div className="flex items-center gap-2">
-						<span className="text-xs text-slate-400">
-							<strong className="text-slate-200">
+						<span className="text-xs text-[#A6D6FF]">
+							<strong className="text-[#A6D6FF]">
 								{selectedCount}
 							</strong>{" "}
 							selected
@@ -193,7 +194,7 @@ export default function SudokuControls({
 								type="button"
 								disabled={disabled}
 								onClick={onClearSelection}
-								className="px-2 py-0.5 rounded border border-slate-700 bg-slate-800 hover:border-slate-500 text-[11px] font-medium text-slate-300 transition-colors cursor-pointer disabled:opacity-50"
+								className="px-2 py-0.5 rounded border border-slate-700 bg-slate-800 hover:border-slate-500 text-[11px] font-medium text-[#A6D6FF] transition-colors cursor-pointer disabled:opacity-50"
 							>
 								Clear
 							</button>
@@ -201,23 +202,23 @@ export default function SudokuControls({
 					</div>
 				</div>
 
-				<p className="text-xs text-slate-400 leading-relaxed">
+				<p className="text-xs text-[#A6D6FF] leading-relaxed">
 					Selecting multiple cells always enters{" "}
-					<span className="text-sky-300 font-medium">Corner</span>{" "}
+					<span className="text-[#A6D6FF] font-medium">Corner</span>{" "}
 					marks. Clicking{" "}
-					<span className="text-sky-300 font-medium">Corner</span> or{" "}
-					<span className="text-emerald-300 font-medium">Center</span>{" "}
+					<span className="text-[#A6D6FF] font-medium">Corner</span> or{" "}
+					<span className="text-[#A6D6FF] font-medium">Center</span>{" "}
 					on a cell with pencil marks converts its mark type.
 				</p>
 			</div>
 
 			{/* Number Pad 1-9 */}
-			<div className="rounded-lg border border-slate-700/60 bg-slate-900 p-4 flex flex-col gap-3">
+			<div className={`${controls.cards} p-4 flex flex-col gap-3`}>
 				<div className="flex items-center justify-between">
-					<span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+					<span className="text-xs font-semibold uppercase tracking-wider text-[#A6D6FF]">
 						Number Pad
 					</span>
-					<span className="text-[11px] text-slate-500">
+					<span className="text-[11px] text-[#A6D6FF]">
 						{modeMeta.hint}
 					</span>
 				</div>
@@ -247,10 +248,10 @@ export default function SudokuControls({
 										: ""
 								}`}
 							>
-								<span className="text-lg font-bold text-slate-100 leading-none">
+								<span className="text-lg font-bold text-[#A6D6FF] leading-none">
 									{digit}
 								</span>
-								<span className="text-[10px] text-slate-400 leading-none mt-1">
+								<span className="text-[10px] text-[#A6D6FF] leading-none mt-1">
 									{isCompleted ? "done" : `${remaining} left`}
 								</span>
 							</button>
@@ -260,13 +261,13 @@ export default function SudokuControls({
 			</div>
 
 			{/* Action Toolbar */}
-			<div className="rounded-lg border border-slate-700/60 bg-slate-900 p-3 grid grid-cols-5 gap-1.5">
+			<div className={`${controls.cards} p-3 grid grid-cols-5 gap-1.5`}>
 				<button
 					type="button"
 					disabled={disabled || isSolved || !canUndo}
 					onClick={onUndo}
 					title="Undo (Ctrl+Z)"
-					className="flex flex-col items-center justify-center gap-1 py-2 px-1 rounded-md border border-slate-700/70 bg-slate-800/60 hover:border-slate-500 text-slate-200 text-[11px] font-medium transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+					className="flex flex-col items-center justify-center gap-1 py-2 px-1 rounded-md border border-slate-700/70 bg-slate-800/60 hover:border-slate-500 text-[#A6D6FF] text-[11px] font-medium transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
 				>
 					<Undo2 className="size-4" />
 					<span>Undo</span>
@@ -280,7 +281,7 @@ export default function SudokuControls({
 					disabled={disabled || isSolved || !canRedo}
 					onClick={onRedo}
 					title="Redo (Ctrl+Y)"
-					className="flex flex-col items-center justify-center gap-1 py-2 px-1 rounded-md border border-slate-700/70 bg-slate-800/60 hover:border-slate-500 text-slate-200 text-[11px] font-medium transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+					className="flex flex-col items-center justify-center gap-1 py-2 px-1 rounded-md border border-slate-700/70 bg-slate-800/60 hover:border-slate-500 text-[#A6D6FF] text-[11px] font-medium transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
 				>
 					<Redo2 className="size-4" />
 					<span>Redo</span>
@@ -294,7 +295,7 @@ export default function SudokuControls({
 					disabled={disabled || isSolved}
 					onClick={onErase}
 					title="Erase selected cell(s) (Backspace)"
-					className="flex flex-col items-center justify-center gap-1 py-2 px-1 rounded-md border border-slate-700/70 bg-slate-800/60 hover:border-slate-500 text-slate-200 text-[11px] font-medium transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+					className="flex flex-col items-center justify-center gap-1 py-2 px-1 rounded-md border border-slate-700/70 bg-slate-800/60 hover:border-slate-500 text-[#A6D6FF] text-[11px] font-medium transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
 				>
 					<Eraser className="size-4" />
 					<span>Erase</span>
@@ -306,7 +307,7 @@ export default function SudokuControls({
 					disabled={disabled || isSolved}
 					onClick={onHint}
 					title="Reveal a valid cell"
-					className="flex flex-col items-center justify-center gap-1 py-2 px-1 rounded-md border border-slate-700/70 bg-slate-800/60 hover:border-amber-500/60 text-amber-200 text-[11px] font-medium transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+					className="flex flex-col items-center justify-center gap-1 py-2 px-1 rounded-md border border-slate-700/70 bg-slate-800/60 hover:border-amber-500/60 text-[#A6D6FF] text-[11px] font-medium transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
 				>
 					<Lightbulb className="size-4" />
 					<span>Hint</span>
@@ -318,7 +319,7 @@ export default function SudokuControls({
 					disabled={disabled || isSolved}
 					onClick={onAutoNotes}
 					title="Fill valid candidate pencil marks for empty cells"
-					className="flex flex-col items-center justify-center gap-1 py-2 px-1 rounded-md border border-slate-700/70 bg-slate-800/60 hover:border-emerald-500/60 text-emerald-200 text-[11px] font-medium transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+					className="flex flex-col items-center justify-center gap-1 py-2 px-1 rounded-md border border-slate-700/70 bg-slate-800/60 hover:border-emerald-500/60 text-[#A6D6FF] text-[11px] font-medium transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
 				>
 					<Sparkles className="size-4" />
 					<span>Notes</span>
@@ -327,13 +328,13 @@ export default function SudokuControls({
 			</div>
 
 			{/* Visual Assistance & Error Checking Toggles */}
-			<div className="rounded-lg border border-slate-700/60 bg-slate-900 p-4 flex flex-col gap-3">
-				<span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+			<div className={`${controls.cards} p-4 flex flex-col gap-3`}>
+				<span className="text-xs font-semibold uppercase tracking-wider text-[#A6D6FF]">
 					Assistance &amp; Highlighting
 				</span>
 
 				<ToggleRow
-					icon={<Grid3X3 className="size-4 text-slate-300" />}
+					icon={<Grid3X3 className="size-4 text-[#A6D6FF]" />}
 					label="Row / Column / Cage"
 					description="Highlight peers of focused cell"
 					checked={highlightSettings.highlightPeers}
@@ -341,7 +342,7 @@ export default function SudokuControls({
 				/>
 
 				<ToggleRow
-					icon={<Eye className="size-4 text-amber-300" />}
+					icon={<Eye className="size-4 text-[#A6D6FF]" />}
 					label="Digits & Candidates"
 					description="Highlight matching numbers & marks"
 					checked={highlightSettings.highlightCandidates}
@@ -351,7 +352,7 @@ export default function SudokuControls({
 				/>
 
 				<ToggleRow
-					icon={<ShieldAlert className="size-4 text-rose-400" />}
+					icon={<ShieldAlert className="size-4 text-[#A6D6FF]" />}
 					label="Error Checking"
 					description="Flag conflicts and wrong entries"
 					checked={highlightSettings.errorChecking}
@@ -382,10 +383,10 @@ function ToggleRow({
 			<div className="flex items-start gap-2.5">
 				<div className="mt-0.5 shrink-0">{icon}</div>
 				<div className="flex flex-col">
-					<span className="text-sm font-medium text-slate-200 leading-tight">
+					<span className="text-sm font-medium text-[#A6D6FF] leading-tight">
 						{label}
 					</span>
-					<span className="text-xs text-slate-400 leading-tight mt-0.5">
+					<span className="text-xs text-[#A6D6FF] leading-tight mt-0.5">
 						{description}
 					</span>
 				</div>
@@ -399,7 +400,7 @@ function ToggleRow({
 				onClick={onToggle}
 				className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full border transition-colors cursor-pointer ${
 					checked
-						? "bg-purple-600 border-purple-400"
+						? "bg-[#2A7CC3] border-[#46A7FC]"
 						: "bg-slate-800 border-slate-600"
 				}`}
 			>

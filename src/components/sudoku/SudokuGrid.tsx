@@ -3,6 +3,7 @@ import { Play } from "lucide-react";
 import SudokuCell from "./SudokuCell";
 import type { BoardGrid, HighlightSettings, PuzzleDefinition } from "./types";
 import { arePeers, getCellConflict } from "./utils";
+import { gridColors } from './styles';
 
 interface SudokuGridProps {
 	board: BoardGrid;
@@ -51,7 +52,7 @@ export default function SudokuGrid({
 		<div
 			role="grid"
 			aria-label="Sudoku 9 by 9 board"
-			className="inline-grid grid-cols-9 border-2 border-slate-300 rounded-lg overflow-hidden shadow-2xl bg-slate-950 relative select-none"
+			className={`inline-grid grid-cols-9 border-2 ${gridColors.border} rounded-md overflow-hidden shadow-md ${gridColors.background} relative select-none`}
 		>
 			{board.map((row, r) =>
 				row.map((cell, c) => {
@@ -98,15 +99,15 @@ export default function SudokuGrid({
 						c === 8
 							? ""
 							: c === 2 || c === 5
-								? "border-r-2 border-r-slate-300"
-								: "border-r border-r-slate-700/90";
+								? `border-r-2 ${gridColors.gridLines.vertical.thick}`
+								: `border-r ${gridColors.gridLines.vertical.thin}`;
 
 					const bottomBorder =
 						r === 8
 							? ""
 							: r === 2 || r === 5
-								? "border-b-2 border-b-slate-300"
-								: "border-b border-b-slate-700/90";
+								? `border-b-2 ${gridColors.gridLines.horizontal.thick}`
+								: `border-b ${gridColors.gridLines.horizontal.thin}`;
 
 					return (
 						<SudokuCell

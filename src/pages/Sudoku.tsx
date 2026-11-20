@@ -37,6 +37,7 @@ import {
 	populateAutoNotes,
 	removePeerPencilMarks,
 } from "../components/sudoku/utils";
+import { controls } from '@/components/sudoku/styles';
 
 interface CellCoord {
 	row: number;
@@ -810,37 +811,38 @@ export default function Sudoku() {
 			<section className="w-full max-w-6xl pt-8 pb-16 px-4 flex flex-col items-center gap-6">
 				{/* Header */}
 				<div className="flex flex-col items-center text-center">
-					<h1 className="text-4xl font-bold tracking-tight text-slate-100">
+					<h1 className="text-4xl font-bold tracking-tight text-[#ABD1FF]">
 						Sudoku
 					</h1>
-					<div className="mt-3 h-px w-24 bg-slate-500" />
-					<p className="text-slate-400 text-sm mt-3">
-						{puzzle.difficulty} —{" "}
-						<span className="text-slate-200 font-medium">
-							{puzzle.title}
+					<div className="mt-3 h-px w-24 bg-[#ABD1FF]" />
+					<div className="flex flex-row items-center gap-4 mt-2 text-md text-[#ABD1FF]">
+						<span className="text-[#ABD1FF]">
+							Difficulty:{" "}
+							<span className="font-semibold">
+								{puzzle.difficulty}
+							</span>
 						</span>
-					</p>
-					<div className="flex flex-row items-center gap-4 mt-2 text-xs text-slate-400">
+						<span className="text-[#ABD1FF]">|</span>
 						<span>
 							Won:{" "}
-							<strong className="text-emerald-300">
+							<span className="text-emerald-300 font-semibold">
 								{currentStat.gamesWon}
-							</strong>
+							</span>
 						</span>
-						<span className="text-slate-700">|</span>
+						<span className="text-[#ABD1FF]">|</span>
 						<span>
 							Best Time:{" "}
-							<strong className="text-purple-300 font-mono">
+							<span className="text-purple-300 font-semibold">
 								{currentStat.bestTimeSeconds !== null
 									? formatTime(currentStat.bestTimeSeconds)
-									: "—"}
-							</strong>
+									: "-"}
+							</span>
 						</span>
 					</div>
 				</div>
 
 				{/* Top HUD Bar */}
-				<div className="w-full max-w-5xl rounded-lg border border-slate-700/60 bg-slate-900 px-4 py-3 flex flex-row flex-wrap items-center justify-between gap-3">
+				<div className="w-full max-w-5xl rounded-lg border-2 border-[#0E1F37] bg-[#1E304A] px-4 py-3 flex flex-row flex-wrap items-center justify-between gap-3">
 					{/* Difficulty Selector */}
 					<div
 						role="group"
@@ -854,10 +856,10 @@ export default function Sudoku() {
 									key={diff}
 									type="button"
 									onClick={() => handleSelectDifficulty(diff)}
-									className={`px-3 py-1.5 rounded-md text-xs font-semibold border transition-colors cursor-pointer ${
+									className={`${controls.buttons.spacing} ${
 										active
-											? "bg-purple-900/50 border-purple-400 text-purple-200"
-											: "bg-slate-800/70 border-slate-700 text-slate-300 hover:border-slate-500"
+											? controls.buttons.active
+											: controls.buttons.inactive
 									}`}
 								>
 									{diff}
