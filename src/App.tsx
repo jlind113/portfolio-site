@@ -9,6 +9,7 @@ import Projects from "./pages/Projects";
 import Skills from "./pages/Skills";
 import Contact from "./pages/Contact";
 import Music from "./pages/Music";
+import Sudoku from "./pages/Sudoku";
 
 export default function App() {
 	return (
@@ -20,6 +21,7 @@ export default function App() {
 					<Route path="/Skills" element={<Skills />} />
 					<Route path="/Contact" element={<Contact />} />
 					<Route path="/Music" element={<Music />} />
+					<Route path="/Sudoku" element={<Sudoku />}/>
 				</Routes>
 			</div>
 			<div className="flex flex-col items-center my-80 mx-4">

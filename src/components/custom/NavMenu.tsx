@@ -10,6 +10,7 @@ export default function NavMenu() {
           <NavButton text={"Skills"} link={"/Skills"} icon={"/icons/List.svg"} />
           <NavButton text={"Contact"} link={"/Contact"} icon={"/icons/Mail.svg"} />
           <NavButton text={"Music"} link={"/Music"} icon={"/icons/MusicNote.svg"} />
+          <NavButton text={"Sudoku"} link={"/Sudoku"} icon={"/icons/Sudoku.svg"} />
         </div>
 			<div className="flex-1" />
 		</div>
