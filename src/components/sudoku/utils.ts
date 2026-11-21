@@ -65,8 +65,8 @@ export function applySnapshot(
 			return {
 				...cell,
 				value: snap.value,
-				cornerMarks: [...snap.cornerMarks],
-				centerMarks: [...snap.centerMarks],
+				cornerMarks: [...snap.cornerMarks].sort((a, b) => a - b),
+				centerMarks: [...snap.centerMarks].sort((a, b) => a - b),
 			};
 		}),
 	);
@@ -143,7 +143,7 @@ export function computeValidCandidates(
 
 export function populateAutoNotes(
 	board: BoardGrid,
-	target: "corner" | "center" = "center",
+	target: "corner" | "center" = "corner",
 ): BoardGrid {
 	const next = cloneBoard(board);
 	for (let r = 0; r < 9; r++) {

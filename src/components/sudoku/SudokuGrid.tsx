@@ -42,17 +42,24 @@ export default function SudokuGrid({
 		selectedCells.map((cell) => `${cell.row}-${cell.col}`),
 	);
 
-	const focusedValue =
-		focusedCell !== null
-			? (board[focusedCell.row]?.[focusedCell.col]?.value ?? null)
+	const firstSelectedValue =
+		selectedCells.length > 0
+			? (board[selectedCells[0].row]?.[selectedCells[0].col]?.value ?? null)
 			: null;
-	const activeDigit = focusedValue ?? highlightedDigit;
+	const sharedSelectedValue =
+		firstSelectedValue !== null &&
+		selectedCells.every(
+			(sel) => board[sel.row]?.[sel.col]?.value === firstSelectedValue,
+		)
+			? firstSelectedValue
+			: null;
+	const activeDigit = sharedSelectedValue ?? highlightedDigit;
 
 	return (
 		<div
 			role="grid"
 			aria-label="Sudoku 9 by 9 board"
-			className={`inline-grid grid-cols-9 border-2 ${gridColors.border} rounded-md overflow-hidden shadow-md ${gridColors.background} relative select-none`}
+			className={`inline-grid shrink-0 aspect-square grid-cols-[repeat(9,2.75rem)] grid-rows-[repeat(9,2.75rem)] sm:grid-cols-[repeat(9,3.5rem)] sm:grid-rows-[repeat(9,3.5rem)] md:grid-cols-[repeat(9,4rem)] md:grid-rows-[repeat(9,4rem)] lg:grid-cols-[repeat(9,4.5rem)] lg:grid-rows-[repeat(9,4.5rem)] border-2 ${gridColors.border} rounded-md overflow-hidden shadow-md ${gridColors.background} relative select-none`}
 		>
 			{board.map((row, r) =>
 				row.map((cell, c) => {
@@ -66,9 +73,11 @@ export default function SudokuGrid({
 					const isPeerHighlighted =
 						!isPaused &&
 						highlightSettings.highlightPeers &&
-						focusedCell !== null &&
+						selectedCells.length > 0 &&
 						!isSelected &&
-						arePeers(focusedCell.row, focusedCell.col, r, c);
+						selectedCells.every((sel) =>
+							arePeers(sel.row, sel.col, r, c),
+						);
 
 					const isSameDigitHighlighted =
 						!isPaused &&

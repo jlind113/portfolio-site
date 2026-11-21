@@ -34,7 +34,8 @@ export const gridCells = {
             normal: "text-[#A6D6FF] font-semibold text-2xl sm:text-3xl lg:text-4xl",
             error: "text-[#A6D6FF] font-semibold text-2xl sm:text-3xl lg:text-4xl"
         },
-        candidate: "text-[#FEFAFA]"
+        candidate: "text-[#FEFAFA]",
+        candidateHighlighted: "text-amber-400 font-bold"
     },
     border: {
         selected: "border-[#2A7CC3]",

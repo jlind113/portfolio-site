@@ -51,6 +51,29 @@ const CORNER_SLOT_CLASSES: readonly string[] = [
 	"bottom-0.5 right-1 sm:bottom-1 sm:right-1.5",
 ];
 
+const CENTER_SLOT_CLASSES: readonly string[] = [
+	// top left
+	"top-1.5 left-3 sm:top-2 sm:left-4 md:top-2.5 md:left-4.5 lg:top-3 lg:left-5.5",
+	// top middle
+	"top-1.5 left-1/2 sm:top-2 md:top-2.5 lg:top-3 -translate-x-1/2",
+	// top right
+	"top-1.5 right-3 sm:top-2 sm:right-4 md:top-2.5 md:right-4.5 lg:top-3 lg:right-5.5",
+
+	// middle left
+	"left-3 sm:left-4 md:left-4.5 lg:left-5.5 top-1/2 -translate-y-1/2",
+	// middle middle
+	"top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+	// middle right
+	"right-3 sm:right-4 md:right-4.5 lg:right-5.5 top-1/2 -translate-y-1/2",
+
+	// bottom left
+	"bottom-1.5 left-3 sm:bottom-2 sm:left-4 md:bottom-2.5 md:left-4.5 lg:bottom-3 lg:left-5.5",
+	// bottom middle
+	"bottom-1.5 left-1/2 sm:bottom-2 md:bottom-2.5 lg:bottom-3 -translate-x-1/2",
+	// bottom right
+	"bottom-1.5 right-3 sm:bottom-2 sm:right-4 md:bottom-2.5 md:right-4.5 lg:bottom-3 lg:right-5.5",
+];
+
 export default function SudokuCell({
 	cell,
 	isSelected,
@@ -106,7 +129,7 @@ export default function SudokuCell({
 			onPointerEnter={(e) => onPointerEnter(cell.row, cell.col, e)}
 			aria-label={ariaLabel}
 			aria-selected={isSelected}
-			className={`w-11 h-11 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-18 lg:h-18 relative select-none touch-none flex items-center justify-center transition-colors focus:outline-none ${bgClass} ${borderClasses}`}
+			className={`w-11 h-11 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-18 lg:h-18 aspect-square shrink-0 relative select-none touch-none flex items-center justify-center transition-colors focus:outline-none ${bgClass} ${borderClasses}`}
 		>
 			{!isObscured && cell.value !== null && (
 				<span className={`leading-none ${digitColorClass}`}>
@@ -117,7 +140,9 @@ export default function SudokuCell({
 			{!isObscured && cell.value === null && (
 				<>
 					{hasCornerMarks &&
-						cell.cornerMarks.map((digit, index) => {
+						[...cell.cornerMarks]
+							.sort((a, b) => a - b)
+							.map((digit, index) => {
 							const slotClass =
 								CORNER_SLOT_CLASSES[
 									Math.min(
@@ -134,8 +159,8 @@ export default function SudokuCell({
 									key={`corner-${digit}`}
 									className={`absolute pointer-events-none text-xs sm:text-sm lg:text-[15px] leading-none font-semibold ${slotClass} ${
 										isCandidateMatch
-											? "outline-2 outline-offset-1 outline-amber-400 text-[#FEFAFA] font-bold rounded-sm"
-											: "text-[#FEFAFA]"
+											? gridCells.text.candidateHighlighted
+											: gridCells.text.candidate
 									}`}
 								>
 									{digit}
@@ -143,34 +168,34 @@ export default function SudokuCell({
 							);
 						})}
 
-					{hasCenterMarks && (
-						<div
-							className={`flex items-center justify-evenly flex-wrap px-4 pointer-events-none ${
-								hasCornerMarks
-									? "bg-slate-950/90 border border-slate-700/80 rounded px-1 py-0.5"
-									: ""
-							}`}
-						>
-							{cell.centerMarks.map((digit) => {
-								const isCandidateMatch =
-									highlightedCandidateDigit !== null &&
-									digit === highlightedCandidateDigit;
+					{hasCenterMarks &&
+						[...cell.centerMarks]
+							.sort((a, b) => a - b)
+							.map((digit, index) => {
+							const slotClass =
+								CENTER_SLOT_CLASSES[
+									Math.min(
+										index,
+										CENTER_SLOT_CLASSES.length - 1,
+									)
+								];
+							const isCandidateMatch =
+								highlightedCandidateDigit !== null &&
+								digit === highlightedCandidateDigit;
 
-								return (
-									<span
-										key={`center-${digit}`}
-										className={`text-xs sm:text-sm lg:text-base leading-3.5 font-medium tracking-tight mx-0.5 my-0.2 ${
-											isCandidateMatch
-												? "outline-2 outline-offset-1 outline-amber-400 text-[#FEFAFA] font-bold rounded"
-												: "text-[#FEFAFA]"
-										}`}
-									>
-										{digit}
-									</span>
-								);
-							})}
-						</div>
-					)}
+							return (
+								<span
+									key={`center-${digit}`}
+									className={`absolute pointer-events-none text-[10px] sm:text-xs lg:text-sm leading-none font-medium ${slotClass} ${
+										isCandidateMatch
+											? gridCells.text.candidateHighlighted
+											: gridCells.text.candidate
+									}`}
+								>
+									{digit}
+								</span>
+							);
+						})}
 				</>
 			)}
 		</button>

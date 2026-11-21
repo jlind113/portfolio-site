@@ -320,42 +320,47 @@ export default function Sudoku() {
 			e.preventDefault();
 			if (isPaused) return;
 
-			isDraggingRef.current = true;
+			const exists = selectedCells.some(
+				(c) => c.row === row && c.col === col,
+			);
 			const isAdditive =
 				isMultiSelectMode || e.ctrlKey || e.metaKey || e.shiftKey;
 
-			if (isAdditive) {
-				const exists = selectedCells.some(
-					(c) => c.row === row && c.col === col,
+			if (!isAdditive) {
+				if (exists && selectedCells.length === 1) {
+					isDraggingRef.current = false;
+					setSelectedCells([]);
+					setFocusedCell(null);
+				} else {
+					isDraggingRef.current = true;
+					const coord = { row, col };
+					setSelectedCells([coord]);
+					setFocusedCell(coord);
+					syncPencilModeForSingleCell(coord);
+				}
+			} else if (exists) {
+				isDraggingRef.current = false;
+				const next = selectedCells.filter(
+					(c) => !(c.row === row && c.col === col),
 				);
-				if (exists && selectedCells.length > 1) {
-					const next = selectedCells.filter(
-						(c) => !(c.row === row && c.col === col),
-					);
-					setSelectedCells(next);
+				setSelectedCells(next);
+				if (next.length === 0) {
+					setFocusedCell(null);
+				} else {
 					const nextFocused = next[next.length - 1];
 					setFocusedCell(nextFocused);
 					if (next.length === 1) {
 						syncPencilModeForSingleCell(nextFocused);
 					}
-				} else if (!exists) {
-					const next = [...selectedCells, { row, col }];
-					setSelectedCells(next);
-					setFocusedCell({ row, col });
-					if (next.length === 1) {
-						syncPencilModeForSingleCell({ row, col });
-					}
-				} else {
-					setFocusedCell({ row, col });
-					if (selectedCells.length === 1) {
-						syncPencilModeForSingleCell({ row, col });
-					}
 				}
 			} else {
-				const coord = { row, col };
-				setSelectedCells([coord]);
-				setFocusedCell(coord);
-				syncPencilModeForSingleCell(coord);
+				isDraggingRef.current = true;
+				const next = [...selectedCells, { row, col }];
+				setSelectedCells(next);
+				setFocusedCell({ row, col });
+				if (next.length === 1) {
+					syncPencilModeForSingleCell({ row, col });
+				}
 			}
 
 			setHighlightedDigit(null);
@@ -594,10 +599,9 @@ export default function Sudoku() {
 
 	const handleAutoNotes = useCallback(() => {
 		if (isPaused || isSolved) return;
-		const target = inputMode === "corner" ? "corner" : "center";
-		const nextBoard = populateAutoNotes(board, target);
+		const nextBoard = populateAutoNotes(board, "corner");
 		commitBoardChange(nextBoard);
-	}, [board, commitBoardChange, inputMode, isPaused, isSolved]);
+	}, [board, commitBoardChange, isPaused, isSolved]);
 
 	const handleToggleHighlightSetting = useCallback(
 		(key: keyof HighlightSettings) => {
@@ -951,7 +955,7 @@ export default function Sudoku() {
 
 				{/* Main Play Area */}
 				<div className="w-full flex flex-col lg:flex-row items-center lg:items-start justify-center gap-8">
-					<div className="flex flex-col items-center gap-3">
+					<div className="flex flex-col items-center gap-3 shrink-0">
 						<SudokuGrid
 							board={board}
 							puzzle={puzzle}
