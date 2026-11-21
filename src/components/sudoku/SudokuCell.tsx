@@ -87,6 +87,15 @@ export default function SudokuCell({
 	onPointerDown,
 	onPointerEnter,
 }: SudokuCellProps) {
+	const hasCornerMarks = cell.cornerMarks.length > 0;
+	const hasCenterMarks = cell.centerMarks.length > 0;
+	const hasCandidateMatch =
+		!isObscured &&
+		cell.value === null &&
+		highlightedCandidateDigit !== null &&
+		(cell.cornerMarks.includes(highlightedCandidateDigit) ||
+			cell.centerMarks.includes(highlightedCandidateDigit));
+
 	let bgClass = cell.given
 		? `${gridCells.background} ${gridCells.backgroundhover}`
 		: `${gridCells.background} ${gridCells.backgroundhover}`;
@@ -101,6 +110,8 @@ export default function SudokuCell({
 		bgClass = `${gridCells.hasError}`;
 	} else if (isSameDigitHighlighted) {
 		bgClass = `${gridCells.sameDigitHighlighted}`;
+	} else if (hasCandidateMatch) {
+		bgClass = `${gridCells.candidateHighlighted}`;
 	} else if (isPeerHighlighted) {
 		bgClass = `${gridCells.peerHighlighted}`;
 	}
@@ -112,9 +123,6 @@ export default function SudokuCell({
 		: hasError
 			? `${gridCells.text.entered.error}`
 			: `${gridCells.text.entered.normal}`;
-
-	const hasCornerMarks = cell.cornerMarks.length > 0;
-	const hasCenterMarks = cell.centerMarks.length > 0;
 
 	const ariaLabel = `Row ${cell.row + 1}, Column ${cell.col + 1}${
 		!isObscured && cell.value !== null
