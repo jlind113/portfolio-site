@@ -819,6 +819,7 @@ export default function Sudoku() {
 						Sudoku
 					</h1>
 					<div className="mt-3 h-px w-24 bg-[#ABD1FF]" />
+					<h2 className="text-[#ABD1FF] text-xl font-bold pt-2">{puzzle.title}</h2>
 					<div className="flex flex-row items-center gap-4 mt-2 text-md text-[#ABD1FF]">
 						<span className="text-[#ABD1FF]">
 							Difficulty:{" "}
