@@ -13,8 +13,11 @@ import Sudoku from "./pages/Sudoku";
 
 export default function App() {
 	return (
-		<div className="flex flex-row justify-between items-start bg-[#28364B] min-h-screen">
-			<div className="w-full h-full p-10">
+		<div className="flex flex-col items-center bg-[#28364B] min-h-screen">
+			<div className="flex flex-row items-center mt-4">
+				<NavMenu />
+			</div>
+			<div className="w-full h-full flex flex-col justify-center">
 				<Routes>
 					<Route path="/" element={<Home />} />
 					<Route path="/Projects" element={<Projects />} />
@@ -23,9 +26,6 @@ export default function App() {
 					<Route path="/Music" element={<Music />} />
 					<Route path="/Sudoku" element={<Sudoku />}/>
 				</Routes>
-			</div>
-			<div className="flex flex-col items-center my-80 mx-4">
-				<NavMenu />
 			</div>
 		</div>
 	);

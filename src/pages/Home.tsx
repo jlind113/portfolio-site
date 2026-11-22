@@ -2,9 +2,9 @@ import { NavLink } from "react-router";
 
 export default function Home() {
 	return (
-		<div className="w-full h-full flex flex-col items-center overflow-y-auto">
+		<div className="w-full h-full flex flex-col justify-center items-center mt-20">
 			{/* Hero */}
-			<section className="w-full max-w-3xl flex flex-col items-center text-center pt-16 pb-10 px-4 gap-5">
+			<section className="w-full max-w-3xl flex flex-col items-center text-center pb-10 px-4 gap-5">
 				<div className="size-50 rounded-full overflow-hidden flex flex-col justify-center items-center border border-slate-700">
 					<div className="w-62.5 h-50 flex items-center justify-center">
 						<img
