@@ -7,7 +7,6 @@ import {
 	CheckCircle2,
 	Hammer,
 	Info,
-	Mail,
 	Pause,
 	Play,
 	RotateCcw,
@@ -44,7 +43,6 @@ import {
 	saveStats,
 } from "../components/sudoku/storage";
 import {
-	buildSubmissionMailtoUrl,
 	submitPuzzleViaEmail,
 	type PuzzleSubmissionPayload,
 } from "../components/sudoku/submit";
@@ -125,7 +123,6 @@ interface PendingSubmission {
 interface SubmitBannerState {
 	type: "success" | "error" | "info";
 	message: string;
-	fallbackMailtoUrl?: string;
 }
 
 function getInitialGameState(): InitialGameState {
@@ -664,7 +661,6 @@ export default function Sudoku() {
 			setSubmitBanner({
 				type: "error",
 				message: res.message,
-				fallbackMailtoUrl: buildSubmissionMailtoUrl(payload),
 			});
 		}
 	}, [isSubmitting, pendingSubmission, submitterName]);
@@ -1737,7 +1733,7 @@ export default function Sudoku() {
 									title={
 										isCurrentGivensSubmitted
 											? "This exact puzzle has already been submitted in this session"
-											: "Validate and submit this puzzle by email"
+											: "Validate and submit this custom puzzle"
 									}
 									className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border text-xs font-semibold transition-colors ${
 										isCurrentGivensSubmitted
@@ -1834,25 +1830,14 @@ export default function Sudoku() {
 							)}
 							<span>{submitBanner.message}</span>
 						</div>
-						<div className="flex items-center gap-2">
-							{submitBanner.fallbackMailtoUrl && (
-								<a
-									href={submitBanner.fallbackMailtoUrl}
-									className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md border border-rose-400/60 bg-rose-900/50 hover:bg-rose-800/60 text-xs font-semibold text-white transition-colors"
-								>
-									<Mail className="size-3.5" />
-									Open in Email App
-								</a>
-							)}
-							<button
-								type="button"
-								onClick={() => setSubmitBanner(null)}
-								aria-label="Dismiss submission status"
-								className="text-current/70 hover:text-current transition-colors cursor-pointer"
-							>
-								<X className="size-4" />
-							</button>
-						</div>
+						<button
+							type="button"
+							onClick={() => setSubmitBanner(null)}
+							aria-label="Dismiss submission status"
+							className="text-current/70 hover:text-current transition-colors cursor-pointer"
+						>
+							<X className="size-4" />
+						</button>
 					</div>
 				)}
 

@@ -4,14 +4,11 @@ import {
 	Check,
 	Copy,
 	Loader2,
-	Mail,
 	Send,
 	X,
 } from "lucide-react";
 import {
-	SUBMISSION_RECIPIENT,
 	SUBMISSION_SUBJECT,
-	buildSubmissionMailtoUrl,
 	formatSubmissionEmailBody,
 	type PuzzleSubmissionPayload,
 } from "./submit";
@@ -41,7 +38,7 @@ const DIFFICULTY_BADGE_CLASSES: Record<Difficulty, string> = {
 
 /**
  * Confirmation modal that previews the validated custom Sudoku puzzle payload
- * before sending it via email, with copy and mailto: fallback actions.
+ * before sending it, with copy fallback actions.
  */
 export default function SudokuSubmitModal({
 	isOpen,
@@ -79,7 +76,6 @@ export default function SudokuSubmitModal({
 		solution,
 	};
 	const emailBody = formatSubmissionEmailBody(payload);
-	const mailtoUrl = buildSubmissionMailtoUrl(payload);
 
 	const handleCopyEmail = async () => {
 		try {
@@ -135,10 +131,7 @@ export default function SudokuSubmitModal({
 						Submit Custom Puzzle
 					</h2>
 					<p className="text-xs text-[#ABD1FF]">
-						To:{" "}
-						<span className="font-mono text-[#A6D6FF]">
-							{SUBMISSION_RECIPIENT}
-						</span>
+						Review your validated puzzle details before sending.
 					</p>
 				</div>
 
@@ -206,7 +199,7 @@ export default function SudokuSubmitModal({
 					</pre>
 				</div>
 
-				{/* Error Banner + Fallback Actions */}
+				{/* Error Banner + Fallback Action */}
 				{errorMessage && (
 					<div
 						role="alert"
@@ -219,20 +212,13 @@ export default function SudokuSubmitModal({
 							</span>
 						</div>
 						<div className="flex flex-row flex-wrap items-center gap-2">
-							<a
-								href={mailtoUrl}
-								className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-rose-400/60 bg-rose-900/50 hover:bg-rose-800/60 text-xs font-semibold text-white transition-colors"
-							>
-								<Mail className="size-3.5" />
-								Open in Email App
-							</a>
 							<button
 								type="button"
 								onClick={handleCopyEmail}
 								className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-slate-600 bg-slate-900/70 hover:border-slate-400 text-xs font-semibold text-slate-200 transition-colors cursor-pointer"
 							>
 								<Copy className="size-3.5" />
-								Copy Email Text
+								Copy Submission Text
 							</button>
 						</div>
 					</div>
@@ -266,17 +252,6 @@ export default function SudokuSubmitModal({
 							</>
 						)}
 					</button>
-				</div>
-
-				{/* Secondary Email Client Link */}
-				<div className="text-center text-[11px] text-slate-400">
-					Prefer your email client?{" "}
-					<a
-						href={mailtoUrl}
-						className="text-[#A6D6FF] hover:text-white underline underline-offset-2 transition-colors"
-					>
-						Open in Email App
-					</a>
 				</div>
 			</div>
 		</div>

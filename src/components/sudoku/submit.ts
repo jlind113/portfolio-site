@@ -1,9 +1,8 @@
 import type { Difficulty } from "./types";
 
-export const SUBMISSION_RECIPIENT = "jackmarkcharleslindgren@gmail.com";
+const FORMSUBMIT_TOKEN = "6ca7471ded921e595ad82f5d80cc1e76";
 export const SUBMISSION_SUBJECT = "Custom Sudoku Puzzle Submission";
-export const FORMSUBMIT_AJAX_ENDPOINT =
-	"https://formsubmit.co/ajax/jackmarkcharleslindgren@gmail.com";
+export const FORMSUBMIT_AJAX_ENDPOINT = `https://formsubmit.co/ajax/${FORMSUBMIT_TOKEN}`;
 
 const REQUEST_TIMEOUT_MS = 15_000;
 
@@ -63,18 +62,6 @@ export function formatSubmissionEmailBody(
 	lines.push(`givens: ${fields.givens}`);
 	lines.push(`solution: ${fields.solution}`);
 	return lines.join("\n");
-}
-
-/**
- * Builds a pre-filled mailto: fallback URL targeting the submission recipient.
- */
-export function buildSubmissionMailtoUrl(
-	payload: PuzzleSubmissionPayload,
-): string {
-	const body = formatSubmissionEmailBody(payload);
-	return `mailto:${SUBMISSION_RECIPIENT}?subject=${encodeURIComponent(
-		SUBMISSION_SUBJECT,
-	)}&body=${encodeURIComponent(body)}`;
 }
 
 /**
@@ -145,14 +132,15 @@ export async function submitPuzzleViaEmail(
 		if (response.ok && String(data?.success).toLowerCase() === "true") {
 			return {
 				ok: true,
-				message: `Puzzle submitted! Sent to ${SUBMISSION_RECIPIENT}.`,
+				message:
+					"Puzzle submitted! Thank you for sharing your custom Sudoku.",
 			};
 		}
 
 		const apiMessage =
 			typeof data?.message === "string" && data.message.trim().length > 0
 				? data.message.trim()
-				: `Submission failed (HTTP ${response.status}). Retry or use the Email App fallback.`;
+				: `Submission failed (HTTP ${response.status}). Please retry or copy your puzzle details.`;
 		return {
 			ok: false,
 			message: apiMessage,
@@ -162,13 +150,13 @@ export async function submitPuzzleViaEmail(
 			return {
 				ok: false,
 				message:
-					"Email request timed out. Please retry or use the Email App fallback.",
+					"Submission request timed out. Please retry or copy your puzzle details.",
 			};
 		}
 		return {
 			ok: false,
 			message:
-				"Could not reach the email service. Check your connection or use the Email App fallback.",
+				"Could not reach the submission service. Check your connection and retry, or copy your puzzle details.",
 		};
 	} finally {
 		globalThis.clearTimeout(timeoutId);
