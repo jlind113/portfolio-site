@@ -41,6 +41,7 @@ export function createSnapshot(board: BoardGrid): BoardSnapshot {
 		cells: board.map((row) =>
 			row.map((cell) => ({
 				value: cell.value,
+				given: cell.given,
 				cornerMarks: [...cell.cornerMarks],
 				centerMarks: [...cell.centerMarks],
 			})),
@@ -51,11 +52,12 @@ export function createSnapshot(board: BoardGrid): BoardSnapshot {
 export function applySnapshot(
 	board: BoardGrid,
 	snapshot: BoardSnapshot,
+	restoreGivens = false,
 ): BoardGrid {
 	return board.map((row, r) =>
 		row.map((cell, c) => {
 			const snap = snapshot.cells[r]?.[c];
-			if (!snap || cell.given) {
+			if (!snap || (!restoreGivens && cell.given)) {
 				return {
 					...cell,
 					cornerMarks: [...cell.cornerMarks],
@@ -65,6 +67,7 @@ export function applySnapshot(
 			return {
 				...cell,
 				value: snap.value,
+				given: restoreGivens ? Boolean(snap.given) : cell.given,
 				cornerMarks: [...snap.cornerMarks].sort((a, b) => a - b),
 				centerMarks: [...snap.centerMarks].sort((a, b) => a - b),
 			};
@@ -110,8 +113,10 @@ export function getCellConflict(
 		}
 	}
 
-	const expected = Number(puzzle.solution[row * 9 + col]);
-	const hasSolutionMismatch = !cell.given && val !== expected;
+	const hasValidSolution = puzzle.solution.length === 81;
+	const expected = hasValidSolution ? Number(puzzle.solution[row * 9 + col]) : null;
+	const hasSolutionMismatch =
+		hasValidSolution && !cell.given && expected !== null && val !== expected;
 
 	return { hasRuleConflict, hasSolutionMismatch };
 }
@@ -187,12 +192,48 @@ export function isBoardSolved(
 	board: BoardGrid,
 	puzzle: PuzzleDefinition,
 ): boolean {
+	if (puzzle.solution.length === 81) {
+		for (let r = 0; r < 9; r++) {
+			for (let c = 0; c < 9; c++) {
+				const expected = Number(puzzle.solution[r * 9 + c]);
+				if (board[r]?.[c]?.value !== expected) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	// Fallback Sudoku rule validation when testing an unvalidated multi-solution draft
 	for (let r = 0; r < 9; r++) {
-		for (let c = 0; c < 9; c++) {
-			const expected = Number(puzzle.solution[r * 9 + c]);
-			if (board[r]?.[c]?.value !== expected) {
+		const rowSet = new Set<number>();
+		const colSet = new Set<number>();
+		const boxSet = new Set<number>();
+		for (let k = 0; k < 9; k++) {
+			const rowVal = board[r]?.[k]?.value;
+			const colVal = board[k]?.[r]?.value;
+			const br = Math.floor(r / 3) * 3 + Math.floor(k / 3);
+			const bc = (r % 3) * 3 + (k % 3);
+			const boxVal = board[br]?.[bc]?.value;
+			if (
+				rowVal === null ||
+				colVal === null ||
+				boxVal === null ||
+				rowVal < 1 ||
+				rowVal > 9 ||
+				colVal < 1 ||
+				colVal > 9 ||
+				boxVal < 1 ||
+				boxVal > 9
+			) {
 				return false;
 			}
+			rowSet.add(rowVal);
+			colSet.add(colVal);
+			boxSet.add(boxVal);
+		}
+		if (rowSet.size !== 9 || colSet.size !== 9 || boxSet.size !== 9) {
+			return false;
 		}
 	}
 	return true;

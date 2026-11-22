@@ -7,7 +7,19 @@ export const DIFFICULTIES: readonly Difficulty[] = [
 	"Expert",
 ] as const;
 
-export type InputMode = "normal" | "corner" | "center";
+export type LevelFilter = Difficulty | "Custom";
+
+export const LEVEL_FILTERS: readonly LevelFilter[] = [
+	"Easy",
+	"Medium",
+	"Hard",
+	"Expert",
+	"Custom",
+] as const;
+
+export type AppMode = "play" | "create" | "test";
+
+export type InputMode = "given" | "normal" | "corner" | "center";
 
 export interface CellData {
 	row: number;
@@ -22,6 +34,7 @@ export type BoardGrid = CellData[][];
 
 export interface CellSnapshot {
 	value: number | null;
+	given?: boolean;
 	cornerMarks: number[];
 	centerMarks: number[];
 }
@@ -59,3 +72,23 @@ export interface PuzzleProgress {
 }
 
 export type PuzzleProgressMap = Record<string, PuzzleProgress>;
+
+export interface CustomPuzzle extends PuzzleDefinition {
+	isValidUnique: boolean;
+	createdAt: number;
+	updatedAt: number;
+}
+
+export type ValidationStatus =
+	| "empty"
+	| "conflict"
+	| "unsolvable"
+	| "multiple"
+	| "unique";
+
+export interface PuzzleValidationResult {
+	status: ValidationStatus;
+	clueCount: number;
+	solution: string | null;
+	message: string;
+}

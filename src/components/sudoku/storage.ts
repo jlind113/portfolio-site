@@ -1,6 +1,7 @@
 import { getPuzzleById } from "./puzzles";
 import type {
 	BoardSnapshot,
+	CustomPuzzle,
 	Difficulty,
 	HighlightSettings,
 	InputMode,
@@ -11,6 +12,7 @@ import type {
 const GAME_STORAGE_KEY = "portfolio_sudoku_state_v1";
 const STATS_STORAGE_KEY = "portfolio_sudoku_stats_v1";
 const PROGRESS_STORAGE_KEY = "portfolio_sudoku_progress_v1";
+const CUSTOM_PUZZLES_STORAGE_KEY = "portfolio_sudoku_custom_puzzles_v1";
 const MAX_STORED_HISTORY = 100;
 
 export const DEFAULT_HIGHLIGHT_SETTINGS: HighlightSettings = {
@@ -95,7 +97,8 @@ export function loadSavedGame(): SavedGameState | null {
 		const inputMode: InputMode =
 			parsed.inputMode === "corner" ||
 			parsed.inputMode === "center" ||
-			parsed.inputMode === "normal"
+			parsed.inputMode === "normal" ||
+			parsed.inputMode === "given"
 				? parsed.inputMode
 				: "normal";
 
@@ -210,6 +213,70 @@ export function loadPuzzleProgress(): PuzzleProgressMap {
 export function savePuzzleProgress(progress: PuzzleProgressMap): void {
 	try {
 		localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(progress));
+	} catch {
+		// Ignore quota or storage unavailability errors
+	}
+}
+
+function isValidDifficulty(val: unknown): val is Difficulty {
+	return (
+		val === "Easy" ||
+		val === "Medium" ||
+		val === "Hard" ||
+		val === "Expert"
+	);
+}
+
+export function loadCustomPuzzles(): CustomPuzzle[] {
+	try {
+		const raw = localStorage.getItem(CUSTOM_PUZZLES_STORAGE_KEY);
+		if (!raw) return [];
+		const parsed = JSON.parse(raw) as unknown;
+		if (!Array.isArray(parsed)) return [];
+
+		const list: CustomPuzzle[] = [];
+		for (const item of parsed) {
+			if (!item || typeof item !== "object") continue;
+			const entry = item as Partial<CustomPuzzle>;
+			if (
+				typeof entry.id !== "string" ||
+				typeof entry.title !== "string" ||
+				!isValidDifficulty(entry.difficulty) ||
+				typeof entry.givens !== "string" ||
+				!/^[0-9]{81}$/.test(entry.givens) ||
+				typeof entry.solution !== "string"
+			) {
+				continue;
+			}
+			list.push({
+				id: entry.id,
+				title: entry.title,
+				difficulty: entry.difficulty,
+				givens: entry.givens,
+				solution: entry.solution,
+				isValidUnique: Boolean(entry.isValidUnique),
+				createdAt:
+					typeof entry.createdAt === "number"
+						? entry.createdAt
+						: Date.now(),
+				updatedAt:
+					typeof entry.updatedAt === "number"
+						? entry.updatedAt
+						: Date.now(),
+			});
+		}
+		return list;
+	} catch {
+		return [];
+	}
+}
+
+export function saveCustomPuzzles(puzzles: CustomPuzzle[]): void {
+	try {
+		localStorage.setItem(
+			CUSTOM_PUZZLES_STORAGE_KEY,
+			JSON.stringify(puzzles),
+		);
 	} catch {
 		// Ignore quota or storage unavailability errors
 	}

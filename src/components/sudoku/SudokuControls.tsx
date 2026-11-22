@@ -5,6 +5,7 @@ import {
 	Eye,
 	Grid3X3,
 	Lightbulb,
+	Lock,
 	PenLine,
 	Pencil,
 	Redo2,
@@ -18,6 +19,8 @@ import { controls } from './styles';
 interface SudokuControlsProps {
 	inputMode: InputMode;
 	onChangeInputMode: (mode: InputMode) => void;
+	isCreatorMode?: boolean;
+	disableHint?: boolean;
 	isMultiSelectMode: boolean;
 	selectedCount: number;
 	onToggleMultiSelectMode: () => void;
@@ -43,6 +46,11 @@ const MODE_LABELS: Record<
 	InputMode,
 	{ label: string; hint: string; badgeClass: string }
 > = {
+	given: {
+		label: "Given Clue",
+		hint: "Places fixed given digits",
+		badgeClass: "text-white border-[#46A7FC] bg-[#2A7CC3]/60",
+	},
 	normal: {
 		label: "Normal Digit",
 		hint: "Enters main cell value",
@@ -63,6 +71,8 @@ const MODE_LABELS: Record<
 export default function SudokuControls({
 	inputMode,
 	onChangeInputMode,
+	isCreatorMode = false,
+	disableHint = false,
 	isMultiSelectMode,
 	selectedCount,
 	onToggleMultiSelectMode,
@@ -83,16 +93,24 @@ export default function SudokuControls({
 	disabled,
 	isSolved,
 }: SudokuControlsProps) {
-	const modeMeta =
-		selectedCount > 1
-			? {
-					label: "Corner Pencil (Multi)",
-					hint: "Toggles corner marks on selected cells",
-					badgeClass: "text-[#A6D6FF] border-[#A6D6FF] bg-sky-900/50",
-				}
-			: MODE_LABELS[inputMode];
 	const effectivePadMode: InputMode =
-		selectedCount > 1 ? "corner" : inputMode;
+		isCreatorMode && inputMode === "given"
+			? "given"
+			: selectedCount > 1
+				? "corner"
+				: inputMode;
+
+	const modeMeta =
+		effectivePadMode === "given"
+			? MODE_LABELS.given
+			: selectedCount > 1
+				? {
+						label: "Corner Pencil (Multi)",
+						hint: "Toggles corner marks on selected cells",
+						badgeClass:
+							"text-[#A6D6FF] border-[#A6D6FF] bg-sky-900/50",
+					}
+				: MODE_LABELS[inputMode];
 
 	return (
 		<div className="flex flex-col gap-4 w-full max-w-sm xl:w-72 2xl:w-84 shrink-0">
@@ -109,7 +127,33 @@ export default function SudokuControls({
 					</span>
 				</div>
 
-				<div className="grid grid-cols-3 gap-2">
+				<div
+					className={`grid gap-2 ${
+						isCreatorMode
+							? "grid-cols-2 sm:grid-cols-4 xl:grid-cols-2"
+							: "grid-cols-3"
+					}`}
+				>
+					{isCreatorMode && (
+						<button
+							type="button"
+							disabled={disabled}
+							onClick={() => onChangeInputMode("given")}
+							aria-pressed={inputMode === "given"}
+							className={`flex flex-col items-center justify-center gap-1 py-2.5 px-2 rounded-lg border text-xs font-semibold transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${
+								inputMode === "given"
+									? "bg-[#2A7CC3]/70 border-[#46A7FC] text-white"
+									: "bg-slate-800/70 border-slate-700 text-[#A6D6FF] hover:border-slate-500"
+							}`}
+						>
+							<Lock className="size-4" />
+							<span>Given</span>
+							<span className="text-[10px] font-normal text-[#A6D6FF]">
+								Key G
+							</span>
+						</button>
+					)}
+
 					<button
 						type="button"
 						disabled={disabled}
@@ -203,12 +247,33 @@ export default function SudokuControls({
 				</div>
 
 				<p className="text-xs text-[#A6D6FF] leading-relaxed">
-					Selecting multiple cells always enters{" "}
-					<span className="text-[#A6D6FF] font-medium">Corner</span>{" "}
-					marks. Clicking{" "}
-					<span className="text-[#A6D6FF] font-medium">Corner</span> or{" "}
-					<span className="text-[#A6D6FF] font-medium">Center</span>{" "}
-					on a cell with pencil marks converts its mark type.
+					{isCreatorMode ? (
+						<>
+							Use{" "}
+							<span className="text-white font-medium">
+								Given
+							</span>{" "}
+							mode to place locked clues. Normal, Corner, and
+							Center marks act as scratchpad notes and aren&apos;t
+							saved as givens.
+						</>
+					) : (
+						<>
+							Selecting multiple cells always enters{" "}
+							<span className="text-[#A6D6FF] font-medium">
+								Corner
+							</span>{" "}
+							marks. Clicking{" "}
+							<span className="text-[#A6D6FF] font-medium">
+								Corner
+							</span>{" "}
+							or{" "}
+							<span className="text-[#A6D6FF] font-medium">
+								Center
+							</span>{" "}
+							on a cell with pencil marks converts its mark type.
+						</>
+					)}
 				</p>
 			</div>
 
@@ -230,11 +295,13 @@ export default function SudokuControls({
 						const isCompleted = placed >= 9;
 
 						const activePadStyle =
-							effectivePadMode === "corner"
-								? "hover:border-sky-400/70 focus-visible:ring-sky-400"
-								: effectivePadMode === "center"
-									? "hover:border-emerald-400/70 focus-visible:ring-emerald-400"
-									: "hover:border-purple-400/70 focus-visible:ring-purple-400";
+							effectivePadMode === "given"
+								? "hover:border-[#46A7FC] focus-visible:ring-[#46A7FC]"
+								: effectivePadMode === "corner"
+									? "hover:border-sky-400/70 focus-visible:ring-sky-400"
+									: effectivePadMode === "center"
+										? "hover:border-emerald-400/70 focus-visible:ring-emerald-400"
+										: "hover:border-purple-400/70 focus-visible:ring-purple-400";
 
 						return (
 							<button
@@ -304,7 +371,7 @@ export default function SudokuControls({
 
 				<button
 					type="button"
-					disabled={disabled || isSolved}
+					disabled={disabled || isSolved || disableHint}
 					onClick={onHint}
 					title="Reveal a valid cell"
 					className="flex flex-col items-center justify-center gap-1 py-2 px-1 rounded-md border border-slate-700/70 bg-slate-800/60 hover:border-amber-500/60 text-[#A6D6FF] text-[11px] font-medium transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
