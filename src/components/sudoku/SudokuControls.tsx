@@ -95,7 +95,7 @@ export default function SudokuControls({
 		selectedCount > 1 ? "corner" : inputMode;
 
 	return (
-		<div className="flex flex-col gap-4 w-full max-w-sm">
+		<div className="flex flex-col gap-4 w-full max-w-sm xl:w-72 2xl:w-84 shrink-0">
 			{/* Pencil / Input Mode Switcher */}
 			<div className={`${controls.cards} p-4 flex flex-col gap-3`}>
 				<div className="flex items-center justify-between">

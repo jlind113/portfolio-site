@@ -1,30 +1,32 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { PointerEvent } from "react";
-import { Pause, Play, RotateCcw, Shuffle, Trophy } from "lucide-react";
+import { Pause, Play, RotateCcw, Trophy } from "lucide-react";
 import SudokuControls from "../components/sudoku/SudokuControls";
 import SudokuGrid from "../components/sudoku/SudokuGrid";
+import SudokuLevelSelector from "../components/sudoku/SudokuLevelSelector";
 import SudokuVictoryModal from "../components/sudoku/SudokuVictoryModal";
 import {
 	getPuzzleById,
 	getPuzzlesByDifficulty,
-	getRandomPuzzle,
 } from "../components/sudoku/puzzles";
 import {
 	DEFAULT_HIGHLIGHT_SETTINGS,
+	loadPuzzleProgress,
 	loadSavedGame,
 	loadStats,
 	saveGameState,
+	savePuzzleProgress,
 	saveStats,
 } from "../components/sudoku/storage";
-import {
-	DIFFICULTIES,
-	type BoardGrid,
-	type BoardSnapshot,
-	type Difficulty,
-	type HighlightSettings,
-	type InputMode,
-	type PuzzleDefinition,
-	type StatsMap,
+import type {
+	BoardGrid,
+	BoardSnapshot,
+	Difficulty,
+	HighlightSettings,
+	InputMode,
+	PuzzleDefinition,
+	PuzzleProgressMap,
+	StatsMap,
 } from "../components/sudoku/types";
 import {
 	applySnapshot,
@@ -37,7 +39,6 @@ import {
 	populateAutoNotes,
 	removePeerPencilMarks,
 } from "../components/sudoku/utils";
-import { controls } from '@/components/sudoku/styles';
 
 interface CellCoord {
 	row: number;
@@ -107,6 +108,8 @@ export default function Sudoku() {
 		getInitialGameState(),
 	);
 	const [puzzle, setPuzzle] = useState<PuzzleDefinition>(initialState.puzzle);
+	const [selectedDifficultyFilter, setSelectedDifficultyFilter] =
+		useState<Difficulty>(initialState.puzzle.difficulty);
 	const [board, setBoard] = useState<BoardGrid>(initialState.board);
 	const [selectedCells, setSelectedCells] = useState<CellCoord[]>([]);
 	const [focusedCell, setFocusedCell] = useState<CellCoord | null>(null);
@@ -135,6 +138,9 @@ export default function Sudoku() {
 	const [highlightSettings, setHighlightSettings] =
 		useState<HighlightSettings>(initialState.highlightSettings);
 	const [stats, setStats] = useState<StatsMap>(() => loadStats());
+	const [puzzleProgress, setPuzzleProgress] = useState<PuzzleProgressMap>(
+		() => loadPuzzleProgress(),
+	);
 
 	// End drag-selection when pointer releases anywhere
 	useEffect(() => {
@@ -183,6 +189,10 @@ export default function Sudoku() {
 
 	const digitCounts = useMemo(() => countDigitPlacements(board), [board]);
 	const currentStat = stats[puzzle.difficulty];
+	const filteredPuzzles = useMemo(
+		() => getPuzzlesByDifficulty(selectedDifficultyFilter),
+		[selectedDifficultyFilter],
+	);
 
 	const commitBoardChange = useCallback(
 		(nextBoard: BoardGrid, pushUndo = true) => {
@@ -217,6 +227,25 @@ export default function Sudoku() {
 					saveStats(updated);
 					return updated;
 				});
+				setPuzzleProgress((prevProgress) => {
+					const prevEntry = prevProgress[puzzle.id];
+					const nextBest =
+						prevEntry?.bestTimeSeconds === null ||
+						prevEntry?.bestTimeSeconds === undefined ||
+						elapsedSeconds < prevEntry.bestTimeSeconds
+							? elapsedSeconds
+							: prevEntry.bestTimeSeconds;
+					const updatedProgress: PuzzleProgressMap = {
+						...prevProgress,
+						[puzzle.id]: {
+							completed: true,
+							bestTimeSeconds: nextBest,
+							wins: (prevEntry?.wins ?? 0) + 1,
+						},
+					};
+					savePuzzleProgress(updatedProgress);
+					return updatedProgress;
+				});
 				setIsVictoryModalOpen(true);
 			}
 		},
@@ -238,17 +267,20 @@ export default function Sudoku() {
 		setIsNewBestTime(false);
 	}, []);
 
-	const handleSelectDifficulty = useCallback(
-		(difficulty: Difficulty) => {
-			if (difficulty === puzzle.difficulty && !isSolved) return;
-			const nextPuzzle = getRandomPuzzle(difficulty, puzzle.id);
-			startPuzzle(nextPuzzle);
+	const handleSelectPuzzle = useCallback(
+		(targetPuzzle: PuzzleDefinition) => {
+			if (targetPuzzle.id === puzzle.id) return;
+			setSelectedDifficultyFilter(targetPuzzle.difficulty);
+			startPuzzle(targetPuzzle);
 		},
-		[isSolved, puzzle.difficulty, puzzle.id, startPuzzle],
+		[puzzle.id, startPuzzle],
 	);
 
-	const handleNewPuzzle = useCallback(() => {
-		const nextPuzzle = getRandomPuzzle(puzzle.difficulty, puzzle.id);
+	const handleNextPuzzle = useCallback(() => {
+		const pool = getPuzzlesByDifficulty(puzzle.difficulty);
+		const currentIndex = pool.findIndex((p) => p.id === puzzle.id);
+		const nextPuzzle = pool[(currentIndex + 1) % pool.length];
+		setSelectedDifficultyFilter(nextPuzzle.difficulty);
 		startPuzzle(nextPuzzle);
 	}, [puzzle.difficulty, puzzle.id, startPuzzle]);
 
@@ -812,14 +844,16 @@ export default function Sudoku() {
 
 	return (
 		<div className="w-full h-full flex flex-col items-center overflow-y-auto">
-			<section className="w-full max-w-6xl pt-8 pb-16 px-4 flex flex-col items-center gap-6">
+			<section className="w-full max-w-[1500px] pt-8 pb-16 px-2 xl:px-4 flex flex-col items-center gap-6">
 				{/* Header */}
 				<div className="flex flex-col items-center text-center">
 					<h1 className="text-4xl font-bold tracking-tight text-[#ABD1FF]">
 						Sudoku
 					</h1>
 					<div className="mt-3 h-px w-24 bg-[#ABD1FF]" />
-					<h2 className="text-[#ABD1FF] text-xl font-bold pt-2">{puzzle.title}</h2>
+					<h2 className="text-[#ABD1FF] text-xl font-bold pt-2">
+						{puzzle.title}
+					</h2>
 					<div className="flex flex-row items-center gap-4 mt-2 text-md text-[#ABD1FF]">
 						<span className="text-[#ABD1FF]">
 							Difficulty:{" "}
@@ -848,29 +882,13 @@ export default function Sudoku() {
 
 				{/* Top HUD Bar */}
 				<div className="w-full max-w-5xl rounded-lg border-2 border-[#0E1F37] bg-[#1E304A] px-4 py-3 flex flex-row flex-wrap items-center justify-between gap-3">
-					{/* Difficulty Selector */}
-					<div
-						role="group"
-						aria-label="Difficulty selection"
-						className="flex flex-row flex-wrap gap-1.5"
-					>
-						{DIFFICULTIES.map((diff) => {
-							const active = diff === puzzle.difficulty;
-							return (
-								<button
-									key={diff}
-									type="button"
-									onClick={() => handleSelectDifficulty(diff)}
-									className={`${controls.buttons.spacing} ${
-										active
-											? controls.buttons.active
-											: controls.buttons.inactive
-									}`}
-								>
-									{diff}
-								</button>
-							);
-						})}
+					<div className="flex items-center gap-2 text-xs text-[#ABD1FF]">
+						<span className="font-semibold uppercase tracking-wider text-[#A6D6FF]">
+							Active Level:
+						</span>
+						<span className="font-semibold text-white">
+							{puzzle.title}
+						</span>
 					</div>
 
 					{/* Timer & Session Actions */}
@@ -910,15 +928,6 @@ export default function Sudoku() {
 							<RotateCcw className="size-3.5" />
 							Restart
 						</button>
-
-						<button
-							type="button"
-							onClick={handleNewPuzzle}
-							className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-purple-500/60 bg-purple-900/40 hover:bg-purple-800/50 text-xs font-semibold text-purple-200 transition-colors cursor-pointer"
-						>
-							<Shuffle className="size-3.5" />
-							New Puzzle
-						</button>
 					</div>
 				</div>
 
@@ -945,17 +954,26 @@ export default function Sudoku() {
 							</button>
 							<button
 								type="button"
-								onClick={handleNewPuzzle}
+								onClick={handleNextPuzzle}
 								className="px-3 py-1 rounded-md bg-purple-600 hover:bg-purple-500 text-xs font-semibold text-white transition-colors cursor-pointer"
 							>
-								Play Another
+								Next Level
 							</button>
 						</div>
 					</div>
 				)}
 
 				{/* Main Play Area */}
-				<div className="w-full flex flex-col lg:flex-row items-center lg:items-start justify-center gap-8">
+				<div className="w-full flex flex-col xl:flex-row items-center xl:items-start justify-center gap-6 xl:gap-4 2xl:gap-6">
+					<SudokuLevelSelector
+						selectedDifficulty={selectedDifficultyFilter}
+						onSelectDifficulty={setSelectedDifficultyFilter}
+						puzzles={filteredPuzzles}
+						activePuzzleId={puzzle.id}
+						progressMap={puzzleProgress}
+						onSelectPuzzle={handleSelectPuzzle}
+					/>
+
 					<div className="flex flex-col items-center gap-3 shrink-0">
 						<SudokuGrid
 							board={board}
@@ -1013,7 +1031,7 @@ export default function Sudoku() {
 				isNewBestTime={isNewBestTime}
 				stat={currentStat}
 				onClose={() => setIsVictoryModalOpen(false)}
-				onPlayAnother={handleNewPuzzle}
+				onPlayAnother={handleNextPuzzle}
 			/>
 		</div>
 	);

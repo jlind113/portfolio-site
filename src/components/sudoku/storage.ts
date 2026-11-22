@@ -4,11 +4,13 @@ import type {
 	Difficulty,
 	HighlightSettings,
 	InputMode,
+	PuzzleProgressMap,
 	StatsMap,
 } from "./types";
 
 const GAME_STORAGE_KEY = "portfolio_sudoku_state_v1";
 const STATS_STORAGE_KEY = "portfolio_sudoku_stats_v1";
+const PROGRESS_STORAGE_KEY = "portfolio_sudoku_progress_v1";
 const MAX_STORED_HISTORY = 100;
 
 export const DEFAULT_HIGHLIGHT_SETTINGS: HighlightSettings = {
@@ -166,6 +168,48 @@ export function loadStats(): StatsMap {
 export function saveStats(stats: StatsMap): void {
 	try {
 		localStorage.setItem(STATS_STORAGE_KEY, JSON.stringify(stats));
+	} catch {
+		// Ignore quota or storage unavailability errors
+	}
+}
+
+export function loadPuzzleProgress(): PuzzleProgressMap {
+	try {
+		const raw = localStorage.getItem(PROGRESS_STORAGE_KEY);
+		if (!raw) return {};
+		const parsed = JSON.parse(raw) as Record<string, unknown>;
+		if (!parsed || typeof parsed !== "object") return {};
+
+		const result: PuzzleProgressMap = {};
+		for (const [id, entry] of Object.entries(parsed)) {
+			if (!entry || typeof entry !== "object") continue;
+			const item = entry as {
+				completed?: unknown;
+				bestTimeSeconds?: unknown;
+				wins?: unknown;
+			};
+			result[id] = {
+				completed: Boolean(item.completed),
+				bestTimeSeconds:
+					typeof item.bestTimeSeconds === "number" &&
+					item.bestTimeSeconds >= 0
+						? item.bestTimeSeconds
+						: null,
+				wins:
+					typeof item.wins === "number" && item.wins >= 0
+						? item.wins
+						: 0,
+			};
+		}
+		return result;
+	} catch {
+		return {};
+	}
+}
+
+export function savePuzzleProgress(progress: PuzzleProgressMap): void {
+	try {
+		localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(progress));
 	} catch {
 		// Ignore quota or storage unavailability errors
 	}

@@ -51,3 +51,11 @@ export interface DifficultyStat {
 }
 
 export type StatsMap = Record<Difficulty, DifficultyStat>;
+
+export interface PuzzleProgress {
+	completed: boolean;
+	bestTimeSeconds: number | null;
+	wins: number;
+}
+
+export type PuzzleProgressMap = Record<string, PuzzleProgress>;
