@@ -42,12 +42,12 @@ export const gridCells = {
         notSelected: "border-[#2A7CC3]"
     },
     isSelected: {
-        neighboor: "bg-[#2A7CC3]  hover:bg-[#2A7CC3]",
+        neighboor: "bg-[#2A7CC3] hover:bg-[#2A7CC3]",
         error: "bg-[#7E608F] ring-2 ring-inset ring-[#2A7CC3]",
         focused: "bg-[#2A7CC3] ring-2 ring-inset ring-[#46A7FC]"
     },
     hasError: "bg-[#C03537]",
-    sameDigitHighlighted: "bg-[#2B4563] ring-2 ring-inset ring-[#2A7CC3]",
-    candidateHighlighted: "bg-[#304254] hover:bg-[#2A7CC3]",
-    peerHighlighted: "bg-[#2B4563] hover:bg-[#2A7CC3]"
+    sameDigitHighlighted: "bg-[#315681] ring-2 ring-inset ring-[#2A7CC3]",
+    candidateHighlighted: "bg-[#324c67] hover:bg-[#2A7CC3]",
+    peerHighlighted: "bg-[#24456b] hover:bg-[#2A7CC3]"
 }
